@@ -1,0 +1,192 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:ProceduralSFXCompanion.ViewModels"
+             xmlns:controls="using:ProceduralSFXCompanion.Controls"
+             xmlns:appserv="using:ProceduralSFXCompanion.Services"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:suki="https://github.com/kikipoulet/SukiUI"
+             xmlns:md="using:ProceduralSFXCompanion.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:EditViewModel"
+             x:Class="ProceduralSFXCompanion.Views.EditView">
+    <Design.DataContext>
+        <vm:EditViewModel>
+            <x:Arguments>
+                <appserv:AppSettingsService></appserv:AppSettingsService>
+                <x:Null></x:Null>
+                <x:Null></x:Null>
+            </x:Arguments>
+        </vm:EditViewModel>
+    </Design.DataContext>
+    
+     <Grid RowDefinitions="Auto, Auto, *, Auto" Margin="5, 5, 5, 0">
+        <suki:GlassCard Grid.Row="0" Padding="0" CornerRadius="10" Margin="0,5,0,0">
+            <Grid ColumnDefinitions="*, Auto">
+                <ContentControl  Grid.Column="0" Content="{Binding FolderEditSelectorViewModel}"></ContentControl>
+                <Button Classes="Basic" Padding="5, 0, 5, 0" Margin="0,0,5,0" Grid.Column="1"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        ToolTip.Tip="Refresh the current folder to update outside changes."
+                        Command="{Binding RefreshCurrentFolder}">
+                    <avalonia:MaterialIcon Kind="Refresh" Height="15" Width="15"></avalonia:MaterialIcon>
+                </Button>
+            </Grid>
+        </suki:GlassCard>
+        
+         <suki:GlassCard Grid.Row="1" Padding="0, 0, 0, 0"
+                         HorizontalAlignment="Stretch"
+                         CornerRadius="10" Margin="5,0,0,0">
+             <WrapPanel  HorizontalAlignment="Stretch" Orientation="Horizontal" ItemSpacing="5">
+                 <Button Classes="Basic" ToolTip.Tip="Ctrl + N: Create new files."
+                         HotKey="Ctrl+N"
+                         Command="{Binding CreateNewFiles}"
+                         Padding="10, 0, 0, 0"><avalonia:MaterialIcon Kind="File"/></Button>
+                 <Button Classes="Basic" ToolTip.Tip="Ctrl + S: Save current files."
+                         HotKey="Ctrl+S"
+                         IsEnabled="{Binding CanSave}"
+                         Command="{Binding SaveCurrentFiles}"
+                         Padding="5, 0, 5, 0"><avalonia:MaterialIcon Kind="ContentSave"/></Button>
+                 
+                 <TextBox Margin="0, 0, 0, 0" Watermark="Name of new files..." Width="250"
+                          TextWrapping="NoWrap" Text="{Binding FileNamePrefix}"
+                          Cursor="Ibeam"
+                          HorizontalAlignment="Left" MaxHeight="20" 
+                          HorizontalContentAlignment="Left" VerticalAlignment="Center"
+                          ToolTip.Tip="The name when creating new files (Ctrl + N). A number will be affixed to the end if files with the same name are found."></TextBox>
+                 <CheckBox Content="Auto Save" Padding="5, 0, 0, 0" Margin="5, 0, 0, 0"
+                           ToolTip.Tip="Save the current files if changed before closing them."
+                           IsChecked="{Binding IsAutoSave}"></CheckBox>
+                
+                 <Border VerticalAlignment="Stretch" Background="{DynamicResource SukiText}" 
+                         Width="2" CornerRadius="10" Margin="10, 10, 5, 10" Opacity="0.25"></Border>
+                 
+                 <Button Classes="Basic" VerticalAlignment="Center"
+                         CommandParameter="{Binding $parent[Window]}"
+                         Command="{Binding OnAudioFolderPathClicked}"     
+                         Margin="0, 0, 0, 0"
+                         Padding="0"
+                         Width="30" Height="30" 
+                         ToolTip.Tip="Select audio folder.">
+                        <avalonia:MaterialIcon Kind="Folder" Width="15" Height="15" 
+                                               VerticalAlignment="Center"></avalonia:MaterialIcon>
+                 </Button>
+                 <TextBox  Watermark="Audio Folder"
+                           MinHeight="25"
+                           VerticalAlignment="Center"
+                           Width="250"
+                           TextWrapping="NoWrap"
+                           IsReadOnly="True"
+                           Text="{Binding AudioFolderPath}"
+                           ToolTip.Tip="Copy audio from this folder to the current editing folder.">
+                 </TextBox>
+                 <Button Classes="Basic" VerticalAlignment="Center"
+                         Command="{Binding PlayAudio}"
+                         HotKey="Ctrl+Shift+Space"
+                         Width="30" Height="30" Padding="0"
+                         ToolTip.Tip="Play the chosen audio in the original audio folder based on the selection mode.">
+                    <avalonia:MaterialIcon Kind="Play" 
+                                           VerticalAlignment="Center"></avalonia:MaterialIcon>
+                 </Button>
+                 <ComboBox ItemsSource="{Binding AudioCopyModes}"
+                           SelectedValue="{Binding CurrentAudioCopyMode}"
+                           SelectedIndex="0"
+                           ToolTip.Tip="Audio copy mode.">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="md:ItemSelection">
+                            <TextBlock Text="{Binding Name}"
+                                       ToolTip.Tip="{Binding Description}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                 </ComboBox>
+                 <CheckBox Content="Overwrite" Padding="5, 0, 0, 0" Margin="0, 0, 0, 0"
+                           ToolTip.Tip="Overwrite existing audio files or not."
+                           IsChecked="{Binding IsAudioOverwrite}"></CheckBox>
+             </WrapPanel>
+         </suki:GlassCard>
+         
+        <Grid Grid.Row="2" ColumnDefinitions="*, *">
+            <suki:GlassCard Grid.Column="0" CornerRadius="10" 
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Padding="5">
+                <TextBox Watermark="Graph..."
+                         Cursor="Ibeam"
+                         VerticalAlignment="Stretch" 
+                         VerticalContentAlignment="Top"
+                         HorizontalContentAlignment="Left"
+                         HorizontalAlignment="Stretch"
+                         TextWrapping="NoWrap"
+                         AcceptsReturn="True"
+                         Text="{Binding GraphText, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </suki:GlassCard>
+            <suki:GlassCard Grid.Column="1" CornerRadius="10" 
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Padding="5">
+                <TextBox Watermark="Description..."
+                         Cursor="Ibeam"
+                         x:Name="DescriptionTextBox"
+                         VerticalAlignment="Stretch" 
+                         HorizontalAlignment="Stretch"
+                         VerticalContentAlignment="Top"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Text="{Binding DescriptionText, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </suki:GlassCard>
+        </Grid>
+        
+        <suki:GlassCard Grid.Row="3" CornerRadius="10" 
+                         
+                        HorizontalAlignment="Stretch"
+                        Padding="0">
+            <Grid ColumnDefinitions="*, Auto, *">
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"
+                           FontSize="12" Margin="10, 0, 0, 0" MaxWidth="300"
+                           TextWrapping="NoWrap"
+                           Text="{Binding CurrentGraphFileName}"></TextBlock>
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"
+                           FontSize="12" Margin="0, 0, 10, 0" MaxWidth="300"
+                           TextWrapping="NoWrap"
+                           Text="{Binding CurrentDescriptionFileName}"></TextBlock>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Button Classes="Basic"
+                            Padding="0"
+                            Height="30" Width="25"
+                            HotKey="Alt+Left"
+                            Command="{Binding ToPreviousPair}"
+                            ToolTip.Tip="Alt + Left Arrow: Previous pair.">
+                        <avalonia:MaterialIcon Kind="NavigateBefore" VerticalAlignment="Center" HorizontalAlignment="Center"></avalonia:MaterialIcon>
+                    </Button>
+                    <TextBox VerticalAlignment="Center" HorizontalAlignment="Right" 
+                             x:Name="CurrentPairTextBox"
+                                   MinHeight="25"
+                                   HorizontalContentAlignment="Right"
+                                   Padding="2, 0, 2, 0"
+                                   Text="{Binding CurrentFileIndex, Mode=OneWay}" 
+                                   ToolTip.Tip="Current pair">
+                        <TextBox.KeyBindings>
+                            <KeyBinding Command="{Binding OnPairJump}" 
+                                        CommandParameter="{Binding #CurrentPairTextBox}"
+                                        Gesture="Enter" />
+                        </TextBox.KeyBindings>
+                    </TextBox>
+                    <TextBlock VerticalAlignment="Center" Text="/"></TextBlock>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding NumFiles}"
+                               ToolTip.Tip="Total number of pairs."></TextBlock>
+                    <Button Classes="Basic"
+                            Padding="0"
+                            Height="30" Width="25"
+                            HotKey="Alt+Right"
+                            Command="{Binding ToNextPair}"
+                            ToolTip.Tip="Alt + Right Arrow: Next pair.">
+                        <avalonia:MaterialIcon Kind="NavigateNext" VerticalAlignment="Center" HorizontalAlignment="Center"></avalonia:MaterialIcon>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </suki:GlassCard>
+    </Grid>
+   
+    
+</UserControl>

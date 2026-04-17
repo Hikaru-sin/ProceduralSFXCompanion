@@ -1,0 +1,120 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:ProceduralSFXCompanion.Controls"
+             xmlns:md="using:ProceduralSFXCompanion.Models"
+             xmlns:appserv="using:ProceduralSFXCompanion.Services"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:suki="https://github.com/kikipoulet/SukiUI"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+             x:DataType="vm:FolderSelectorViewModel"
+             x:Class="ProceduralSFXCompanion.Controls.FolderSelectorView"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="50">
+    <Design.DataContext>
+        <vm:FolderSelectorViewModel>
+            <x:Arguments>
+                <appserv:AppSettingsService></appserv:AppSettingsService>
+                <generic:Dictionary x:TypeArguments="x:String, md:FolderItem">
+                    <md:FolderItem x:Key="Test1" Path="D:/" FolderName="Test1"></md:FolderItem>
+                    <md:FolderItem x:Key="Test2" Path="D:/" FolderName="Test2"></md:FolderItem>
+                </generic:Dictionary>
+                <x:Null></x:Null>
+            </x:Arguments>
+        </vm:FolderSelectorViewModel>
+    </Design.DataContext>
+    
+    <Grid ColumnDefinitions="*, Auto">
+        <Border Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="10, 5, 0, 5">
+            <ItemsControl ItemsSource="{Binding SelectedItems}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="md:FolderItem">
+                        <Border Margin="0, 0, 4, 0" 
+                                Padding="8,4" 
+                                BorderBrush="{DynamicResource SukiPrimaryColor}" 
+                                BorderThickness="1" 
+                                CornerRadius="10">
+                            <TextBlock Text="{Binding FolderName}" 
+                                       VerticalAlignment="Center"
+                                       FontSize="12" />
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+        
+        <Button Grid.Column="0" Classes="Standard" x:Name="FolderSelectorButton"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center">
+            <Button.Flyout>
+                <Flyout Placement="Bottom" HorizontalOffset="0" VerticalOffset="5">
+                    <suki:GlassCard Padding="5" HorizontalAlignment="Stretch" 
+                                    Width="{Binding #FolderSelectorButton.Bounds.Width}"
+                                    HorizontalContentAlignment="Stretch"
+                                    CornerRadius="10"
+                                    IsOpaque="True">
+                        <suki:GlassCard.MaxHeight>
+                            <Binding Path="$parent[Window].Height" 
+                                     Converter="{StaticResource PercentConv}" 
+                                     ConverterParameter="0.7" />
+                        </suki:GlassCard.MaxHeight>
+                        <ListBox ItemsSource="{Binding FolderItems}"
+                                 SelectedItems="{Binding SelectedItems}"
+                                 SelectionMode="Multiple, Toggle"
+                                 HorizontalAlignment="Stretch"
+                                 Margin="0"
+                                 Padding="0">
+                            <ListBox.Styles>
+                                <Style Selector="ListBoxItem">
+                                    <Setter Property="Margin" Value="0,2.5" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <!-- <Setter Property="CornerRadius" Value="10" /> -->
+                                </Style>
+                            </ListBox.Styles>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="md:FolderItem">
+                                    <Grid ColumnDefinitions="45, *" HorizontalAlignment="Left">
+                                        <!-- ReSharper disable once Xaml.PossibleNullReferenceException -->
+                                        <Button Grid.Column="0" Classes="Basic" 
+                                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                Margin="0,0,15,0"
+                                                Command="{Binding $parent[ListBox].((vm:FolderSelectorViewModel)DataContext).RemoveFolderItemCommand}"
+                                                CommandParameter="{Binding}"
+                                                IsVisible="{Binding IsRemovable}">
+                                            <avalonia:MaterialIcon  Kind="TrashCan"/>
+                                        </Button>
+                                        
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding FolderName}" 
+                                                       FontWeight="DemiBold" 
+                                                       FontSize="14"/>
+                                            <TextBlock Text="{Binding Path}" 
+                                                       FontSize="11" 
+                                                       Opacity="0.5" 
+                                                       TextTrimming="CharacterEllipsis"
+                                                       ToolTip.Tip="{Binding Path}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </suki:GlassCard>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+        
+        <Button Classes="Basic" Grid.Column="1" VerticalAlignment="Center"
+                CommandParameter="{Binding $parent[Window]}"
+                Command="{Binding OnAddNewFolderPathClicked}"                
+                Width="40" Height="40" Padding="0"
+                ToolTip.Tip="Add a new folder.">
+                <avalonia:MaterialIcon Kind="FolderAdd" Width="18" Height="18" VerticalAlignment="Center"></avalonia:MaterialIcon>
+        </Button>
+    </Grid>
+</UserControl>

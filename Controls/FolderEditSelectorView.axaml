@@ -1,0 +1,86 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:ProceduralSFXCompanion.Controls"
+             xmlns:md="using:ProceduralSFXCompanion.Models"
+             xmlns:appserv="using:ProceduralSFXCompanion.Services"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:suki="https://github.com/kikipoulet/SukiUI"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+             x:DataType="vm:FolderEditSelectorViewModel"
+             x:Class="ProceduralSFXCompanion.Controls.FolderEditSelectorView"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="60">
+    <Design.DataContext>
+        <vm:FolderEditSelectorViewModel>
+            <x:Arguments>
+                <appserv:AppSettingsService></appserv:AppSettingsService>
+                <generic:Dictionary x:TypeArguments="x:String, md:FolderItem">
+                    <md:FolderItem x:Key="Test1" Path="D:/" FolderName="Test1" IsSelected="True"></md:FolderItem>
+                    <md:FolderItem x:Key="Test2" Path="D:/" FolderName="Test2" IsSelected="False"></md:FolderItem>
+                </generic:Dictionary>
+                <x:Null></x:Null>
+            </x:Arguments>
+        </vm:FolderEditSelectorViewModel>
+    </Design.DataContext>
+    
+    <Grid ColumnDefinitions="*, Auto">
+        <ComboBox Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                  BorderThickness="1"
+                  ItemsSource="{Binding FolderItems}"
+                  SelectedItem="{Binding SelectedItem}">
+            <ComboBox.SelectionBoxItemTemplate>
+                <DataTemplate DataType="md:FolderItem">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding FolderName}" 
+                                   FontWeight="DemiBold" 
+                                   FontSize="14"/>
+                        <TextBlock Text="{Binding Path}" 
+                                   FontSize="11" 
+                                   Opacity="0.5" 
+                                   TextTrimming="CharacterEllipsis"
+                                   ToolTip.Tip="{Binding Path}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.SelectionBoxItemTemplate>
+            <ComboBox.ItemTemplate>
+                <DataTemplate DataType="md:FolderItem">
+                    <Grid ColumnDefinitions="45, *" HorizontalAlignment="Left">
+                        <!-- ReSharper disable once Xaml.PossibleNullReferenceException -->
+                        <Button Grid.Column="0" Classes="Basic" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                Margin="0,0,15,0"
+                                Command="{Binding $parent[ComboBox].((vm:FolderEditSelectorViewModel)DataContext).RemoveFolderItemCommand}"
+                                CommandParameter="{Binding}"
+                                IsVisible="{Binding IsRemovable}"
+                                >
+                            <avalonia:MaterialIcon  Kind="TrashCan"/>
+                        </Button>
+                                        
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding FolderName}" 
+                                       FontWeight="DemiBold" 
+                                       Foreground="{DynamicResource SukiText}"
+                                       FontSize="14"/>
+                            <TextBlock Text="{Binding Path}" 
+                                       FontSize="11" 
+                                       Opacity="0.5" 
+                                       Foreground="{DynamicResource SukiText}"
+                                       TextTrimming="CharacterEllipsis"
+                                       ToolTip.Tip="{Binding Path}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <Button Classes="Basic" Grid.Column="1" VerticalAlignment="Center"
+                CommandParameter="{Binding $parent[Window]}"
+                Command="{Binding OnAddNewFolderPathClicked}"                
+                Width="40" Height="40" Padding="0"
+                ToolTip.Tip="Add a new folder.">
+            <avalonia:MaterialIcon Kind="FolderAdd" Width="18" Height="18" VerticalAlignment="Center"></avalonia:MaterialIcon>
+        </Button>
+    </Grid>
+</UserControl>

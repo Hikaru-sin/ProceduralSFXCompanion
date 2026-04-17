@@ -1,0 +1,119 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:ProceduralSFXCompanion.ViewModels"
+             xmlns:controls="using:ProceduralSFXCompanion.Controls"
+             xmlns:appserv="using:ProceduralSFXCompanion.Services"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:suki="https://github.com/kikipoulet/SukiUI"
+             xmlns:md="using:ProceduralSFXCompanion.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ProceduralSFXCompanion.Views.SearchView"
+             x:DataType="vm:SearchViewModel">
+    <Design.DataContext>
+        <vm:SearchViewModel>
+            <x:Arguments>
+                <appserv:AppSettingsService></appserv:AppSettingsService>
+                <x:Null></x:Null>
+                <x:Null></x:Null>
+            </x:Arguments>
+        </vm:SearchViewModel>
+    </Design.DataContext>
+    
+    <Grid RowDefinitions="Auto, *, Auto" Margin="5, 5, 5, 0">
+        <suki:GlassCard Grid.Row="0" Padding="0" CornerRadius="10" Margin="0,5,0,5">
+            <ContentControl Content="{Binding FolderSelectorViewModel}"></ContentControl>
+        </suki:GlassCard>
+
+        <suki:BusyArea Grid.Row="1"  BusyText="Loading..." IsBusy="{Binding IsBusy}" 
+                       IsHitTestVisible="{Binding !IsBusy}"
+                       HorizontalAlignment="Stretch" 
+                       VerticalAlignment="Stretch"
+                       Padding="0"
+                       Margin="0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="5"
+                              HorizontalScrollBarVisibility="Disabled" 
+                              VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch">
+                    <ItemsControl  ItemsSource="{Binding SearchedEntries}"
+                                   HorizontalAlignment="Stretch"
+                                   Margin="0"
+                                   Padding="0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="md:GraphDescription">
+                                <Border Padding="0" CornerRadius="10" Classes="Standard" 
+                                                Margin="8" HorizontalAlignment="Stretch"
+                                                BorderThickness="1"
+                                                BorderBrush="{DynamicResource SukiBorderBrush}"
+                                                Height="50">
+                                    <Grid HorizontalAlignment="Stretch" Margin="0">
+                                        <Border CornerRadius="10"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Background="{DynamicResource SukiGlassCardBackground}"
+                                                Opacity="{DynamicResource ControlGlassOpacity}">
+                                        </Border>
+                                        
+                                        <SelectableTextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                             Margin="10,5, 80,5"
+                                                             controls:BoldTextBlock.FormattedText="{Binding Content}"
+                                                             FontSize="16"/>
+                                        
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                                                    VerticalAlignment="Center">
+                                            <Button Classes="Standard" Padding="0" 
+                                                    Margin="0,0,5,0" Height="30" Width="30"
+                                                    Command="{Binding $parent[ItemsControl].((vm:SearchViewModel)DataContext).CopyData}"
+                                                    CommandParameter="{Binding FileName}"
+                                                    Foreground="{DynamicResource SukiPrimaryColor120}"
+                                                    ToolTip.Tip="Copy Graph">
+                                                <avalonia:MaterialIcon  Kind="ContentCopy"/>
+                                            </Button>
+                                            
+                                            <Button Classes="Standard" Padding="0"
+                                                    Margin="0,0,5,0" Height="30" Width="30"
+                                                    Command="{Binding $parent[ItemsControl].((vm:SearchViewModel)DataContext).PlaySound}"
+                                                    CommandParameter="{Binding}"
+                                                    IsEnabled="{Binding CanPreview}"
+                                                    Foreground="{DynamicResource SukiPrimaryColor120}"
+                                                    ToolTip.Tip="Play Audio Preview">
+                                                <avalonia:MaterialIcon  Kind="PlayArrow"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </suki:BusyArea>
+        <suki:GlassCard Grid.Row="2" Padding="5" CornerRadius="10" Margin="0,5,0,5">
+            <Grid ColumnDefinitions="*, 40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBox Classes="clearButton" 
+                         HorizontalAlignment="Stretch"
+                         Watermark="Search..."
+                         x:Name="SearchTextBox"
+                         TextWrapping="Wrap">
+                    <TextBox.KeyBindings>
+                        <KeyBinding Command="{Binding SearchDescriptions}" 
+                                    CommandParameter="{Binding #SearchTextBox.Text}"
+                                    Gesture="Enter" />
+                    </TextBox.KeyBindings>
+                </TextBox>
+                
+                <Button Grid.Column="1" Margin="5,0, 0, 0" Classes="Basic" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                        Command="{Binding SearchDescriptions}"
+                        CommandParameter="{Binding #SearchTextBox.Text}">
+                    <avalonia:MaterialIcon Kind="Search" HorizontalAlignment="Center" VerticalAlignment="Center"></avalonia:MaterialIcon>
+                </Button>
+            </Grid>
+        </suki:GlassCard>
+    </Grid>
+</UserControl>
