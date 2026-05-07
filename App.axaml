@@ -2,6 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="ProceduralSFXCompanion.App"
              xmlns:vm="using:ProceduralSFXCompanion.ViewModels"
+             xmlns:ava="using:Avalonia.Themes.Simple"
+             xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              xmlns:conv="using:ProceduralSFXCompanion.Utilities"
              xmlns:local="using:ProceduralSFXCompanion"
              xmlns:sukiUi="clr-namespace:SukiUI;assembly=SukiUI"
@@ -12,10 +14,21 @@
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
+             
+    <Application.Resources>
+     <conv:PercentageConverter x:Key="PercentConv" />
+     <x:Double x:Key="ControlContentThemeFontSize">16</x:Double>
+     <SolidColorBrush x:Key="TextAreaSelectionBrush" Color="{DynamicResource SukiPrimaryColor}" Opacity="0.5"/>
+    </Application.Resources>
+             
     <Application.Styles>
+        <!-- <SimpleTheme/> -->
+        <StyleInclude Source="avares://AvaloniaEdit/Themes/Simple/AvaloniaEdit.xaml" />
+        
         <sukiUi:SukiTheme ThemeColor="Blue"  />
         <materialIcons:MaterialIconStyles />
+        
+        <StyleInclude Source="/Controls/TutorialCardStyle.axaml" />
         
         <Style Selector="Button">
             <Setter Property="Transitions">
@@ -56,7 +69,4 @@
         
     </Application.Styles>
              
-    <Application.Resources>
-        <conv:PercentageConverter x:Key="PercentConv" />
-    </Application.Resources>
 </Application>

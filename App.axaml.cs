@@ -74,7 +74,9 @@ public partial class App : Application
         services.AddSingleton<ISukiToastManager, SukiToastManager>();
         services.AddSingleton<ISukiDialogManager, SukiDialogManager>();
         services.AddSingleton<AppSettingsService>();
+        services.AddSingleton<VideoService>();
         services.AddSingleton<AudioService>();
+        services.AddSingleton<WebService>();
         
         return services.BuildServiceProvider(new ServiceProviderOptions
         {

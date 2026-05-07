@@ -10,6 +10,7 @@
              xmlns:md="using:ProceduralSFXCompanion.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:EditViewModel"
+             xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              x:Class="ProceduralSFXCompanion.Views.EditView">
     <Design.DataContext>
         <vm:EditViewModel>
@@ -21,7 +22,7 @@
         </vm:EditViewModel>
     </Design.DataContext>
     
-     <Grid RowDefinitions="Auto, Auto, *, Auto" Margin="5, 5, 5, 0">
+     <Grid RowDefinitions="Auto, Auto, *, Auto" Margin="5, 5, 5, 0" DragDrop.AllowDrop="True" x:Name="FileDropZone">
         <suki:GlassCard Grid.Row="0" Padding="0" CornerRadius="10" Margin="0,5,0,0">
             <Grid ColumnDefinitions="*, Auto">
                 <ContentControl  Grid.Column="0" Content="{Binding FolderEditSelectorViewModel}"></ContentControl>
@@ -36,30 +37,41 @@
         
          <suki:GlassCard Grid.Row="1" Padding="0, 0, 0, 0"
                          HorizontalAlignment="Stretch"
-                         CornerRadius="10" Margin="5,0,0,0">
+                         CornerRadius="10" Margin="0,0,0,0"
+                         Background="Transparent">
              <WrapPanel  HorizontalAlignment="Stretch" Orientation="Horizontal" ItemSpacing="5">
-                 <Button Classes="Basic" ToolTip.Tip="Ctrl + N: Create new files."
-                         HotKey="Ctrl+N"
-                         Command="{Binding CreateNewFiles}"
-                         Padding="10, 0, 0, 0"><avalonia:MaterialIcon Kind="File"/></Button>
                  <Button Classes="Basic" ToolTip.Tip="Ctrl + S: Save current files."
                          HotKey="Ctrl+S"
                          IsEnabled="{Binding CanSave}"
                          Command="{Binding SaveCurrentFiles}"
-                         Padding="5, 0, 5, 0"><avalonia:MaterialIcon Kind="ContentSave"/></Button>
+                         Padding="10, 0, 0, 0"><avalonia:MaterialIcon Kind="ContentSave"/></Button>
+                 <Button Classes="Basic" VerticalAlignment="Center"
+                         Command="{Binding PlayAudioInEditingFolder}"
+                         HotKey="Ctrl+Shift+A"
+                         IsEnabled="{Binding HasAudioInEditingFolder}"
+                         Width="30" Height="30" Padding="0"
+                         ToolTip.Tip="Ctrl+Shift+A: Play the audio of the current editing files.">
+                     <avalonia:MaterialIcon Kind="Play" 
+                                            VerticalAlignment="Center"></avalonia:MaterialIcon>
+                 </Button>
                  
-                 <TextBox Margin="0, 0, 0, 0" Watermark="Name of new files..." Width="250"
+                 <Button Classes="Basic" ToolTip.Tip="Ctrl + N: Create new files. Or you can drag and drop a file into this window."
+                         HotKey="Ctrl+N"
+                         Command="{Binding CreateNewFiles}"
+                         Padding="0, 0, 5, 0"><avalonia:MaterialIcon Kind="File"/></Button>
+                 <TextBox Margin="0, 0, 0, 0" Watermark="Name of new files" Width="250"
                           TextWrapping="NoWrap" Text="{Binding FileNamePrefix}"
                           Cursor="Ibeam"
                           HorizontalAlignment="Left" MaxHeight="20" 
                           HorizontalContentAlignment="Left" VerticalAlignment="Center"
-                          ToolTip.Tip="The name when creating new files (Ctrl + N). A number will be affixed to the end if files with the same name are found."></TextBox>
-                 <CheckBox Content="Auto Save" Padding="5, 0, 0, 0" Margin="5, 0, 0, 0"
+                          ToolTip.Tip="The name when creating new files (Ctrl + N). A number will be affixed to the end if files with the same name are found.">
+                 </TextBox>
+                 <CheckBox Content="Auto Save" Padding="5, 0, 5, 0" Margin="5, 0, 0, 0"
                            ToolTip.Tip="Save the current files if changed before closing them."
                            IsChecked="{Binding IsAutoSave}"></CheckBox>
                 
                  <Border VerticalAlignment="Stretch" Background="{DynamicResource SukiText}" 
-                         Width="2" CornerRadius="10" Margin="10, 10, 5, 10" Opacity="0.25"></Border>
+                         Width="2" CornerRadius="10" Margin="0, 10, 0, 10" Opacity="0.25"></Border>
                  
                  <Button Classes="Basic" VerticalAlignment="Center"
                          CommandParameter="{Binding $parent[Window]}"
@@ -81,10 +93,10 @@
                            ToolTip.Tip="Copy audio from this folder to the current editing folder.">
                  </TextBox>
                  <Button Classes="Basic" VerticalAlignment="Center"
-                         Command="{Binding PlayAudio}"
-                         HotKey="Ctrl+Shift+Space"
+                         Command="{Binding PlayAudioInCopySourceFolder}"
+                         HotKey="Ctrl+Shift+D"
                          Width="30" Height="30" Padding="0"
-                         ToolTip.Tip="Play the chosen audio in the original audio folder based on the selection mode.">
+                         ToolTip.Tip="Ctrl+Shift+D: Play the chosen audio in the original audio folder based on the selection mode.">
                     <avalonia:MaterialIcon Kind="Play" 
                                            VerticalAlignment="Center"></avalonia:MaterialIcon>
                  </Button>
@@ -110,29 +122,37 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Padding="5">
-                <TextBox Watermark="Graph..."
+                <TextBox Watermark="MetaSounds graph T3D format..."
                          Cursor="Ibeam"
                          VerticalAlignment="Stretch" 
                          VerticalContentAlignment="Top"
                          HorizontalContentAlignment="Left"
                          HorizontalAlignment="Stretch"
                          TextWrapping="NoWrap"
+                         FontSize="14"
                          AcceptsReturn="True"
-                         Text="{Binding GraphText, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                         Text="{Binding GraphTextDisplay}"></TextBox>
             </suki:GlassCard>
             <suki:GlassCard Grid.Column="1" CornerRadius="10" 
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Padding="5">
-                <TextBox Watermark="Description..."
-                         Cursor="Ibeam"
-                         x:Name="DescriptionTextBox"
-                         VerticalAlignment="Stretch" 
-                         HorizontalAlignment="Stretch"
-                         VerticalContentAlignment="Top"
-                         TextWrapping="Wrap"
-                         AcceptsReturn="True"
-                         Text="{Binding DescriptionText, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Border Background="{DynamicResource SukiGlassCardBackground}" Opacity="0.25"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                        CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource SukiBorderBrush}"/>
+                <avaloniaEdit:TextEditor x:Name="DescriptionTextBox"
+                                         Margin="10"
+                                         ShowLineNumbers="False"
+                                         Watermark="The description of this graph (or audio)."
+                                         Cursor="Ibeam"
+                                         Document="{Binding DescriptionTextDisplay}"
+                                         VerticalAlignment="Stretch"
+                                         HorizontalAlignment="Stretch"
+                                         FontSize="14"
+                                         WordWrap="True"/>
+                
+                </Grid>
             </suki:GlassCard>
         </Grid>
         
@@ -141,14 +161,30 @@
                         HorizontalAlignment="Stretch"
                         Padding="0">
             <Grid ColumnDefinitions="*, Auto, *">
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"
-                           FontSize="12" Margin="10, 0, 0, 0" MaxWidth="300"
-                           TextWrapping="NoWrap"
-                           Text="{Binding CurrentGraphFileName}"></TextBlock>
-                <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"
-                           FontSize="12" Margin="0, 0, 10, 0" MaxWidth="300"
-                           TextWrapping="NoWrap"
-                           Text="{Binding CurrentDescriptionFileName}"></TextBlock>
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Button Classes="Basic" Padding="5, 0, 5, 0"
+                            ToolTip.Tip="Open file in explorer"
+                            Command="{Binding OpenEditingFileInExplorerCommand}"
+                            CommandParameter="{Binding CurrentGraphFileName}">
+                        <avalonia:MaterialIcon Kind="FolderFile"></avalonia:MaterialIcon>
+                    </Button>
+                    <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Left"
+                               FontSize="12" Margin="0, 0, 0, 0" MaxWidth="300"
+                               TextWrapping="NoWrap"
+                               Text="{Binding CurrentGraphFileName}"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right"
+                               FontSize="12" Margin="0, 0, 0, 0" MaxWidth="300"
+                               TextWrapping="NoWrap"
+                               Text="{Binding CurrentDescriptionFileName}"></TextBlock>
+                    <Button Classes="Basic" Padding="5, 0, 5, 0"
+                            ToolTip.Tip="Open file in explorer"
+                            Command="{Binding OpenEditingFileInExplorerCommand}"
+                            CommandParameter="{Binding CurrentDescriptionFileName}">
+                        <avalonia:MaterialIcon Kind="FolderFile"></avalonia:MaterialIcon>
+                    </Button>
+                </StackPanel>
                 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Button Classes="Basic"

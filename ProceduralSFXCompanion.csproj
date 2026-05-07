@@ -5,17 +5,25 @@
         <Nullable>enable</Nullable>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <AssemblyVersion></AssemblyVersion>
+        <FileVersion></FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
         <AvaloniaResource Include="Assets\**"/>
-		<None Update="Assets\Default Graphs\**">
+		<None Update="Resources\**">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	    </None>
     </ItemGroup>
 
+	 <PropertyGroup>
+		<ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.3.12" />
+        <PackageReference Include="Avalonia.AvaloniaEdit" Version="11.3.0" />
         <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.3.12" />
         <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.12" />
         <PackageReference Include="Avalonia.Desktop" Version="11.3.12" />
@@ -29,11 +37,11 @@
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1"/>
         <PackageReference Include="Dapper" Version="2.1.72" />
+        <PackageReference Include="JAJ.Packages.MiniAudioEx" Version="3.3.0" />
         <PackageReference Include="Material.Icons.Avalonia" Version="3.0.0" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.5" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.5" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.5" />
-        <PackageReference Include="OwnAudioSharp.Basic" Version="2.7.1" />
         <PackageReference Include="SkiaSharp" Version="3.119.2" />
         <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.2" />
         <PackageReference Include="SkiaSharp.NativeAssets.macOS" Version="3.119.2" />
@@ -42,6 +50,7 @@
         <PackageReference Include="SukiUI.Dock" Version="6.0.3" />
         <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.1" />
         <PackageReference Include="Tmds.DBus.Protocol" Version="0.92.0" />
+        <PackageReference Include="WeCantSpell.Hunspell" Version="7.0.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -49,5 +58,10 @@
         <DependentUpon>FolderEditSelectorView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\Videos\DynamicReverbSystemSetup.mp4" />
+      <None Remove="Resources\Videos\DynamicReverbSystemSetup.png" />
     </ItemGroup>
 </Project>

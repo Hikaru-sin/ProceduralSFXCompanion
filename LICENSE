@@ -19,3 +19,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Third party libraries:
+UI framework - Avalonia (MIT): https://github.com/avaloniaui/avalonia
+UI theme - SukiUI (MIT): https://github.com/kikipoulet/SukiUI
+SQLite Mapper - Dapper (MIT): https://github.com/DapperLib/Dapper
+Text editor - AvaloniaEdit (MIT): https://github.com/AvaloniaUI/AvaloniaEdit
+Spell check - WeCantSpell.Hunspell (MPL 1.1/GPL 2.0/LGPL 2.1): https://github.com/aarondandy/WeCantSpell.Hunspell/tree/main
+Audio Player - MiniAudioExNET (MIT): https://github.com/japajoe/MiniAudioExNET

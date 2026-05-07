@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:ProceduralSFXCompanion.ViewModels"
+             xmlns:controls="using:ProceduralSFXCompanion.Controls"
+             xmlns:appserv="using:ProceduralSFXCompanion.Services"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:suki="https://github.com/kikipoulet/SukiUI"
+             xmlns:sukii="using:SukiUI.Toasts"
+             xmlns:md="using:ProceduralSFXCompanion.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ProceduralSFXCompanion.Views.TutorialsView"
+             x:Name="RootView"
+             x:DataType="vm:TutorialsViewModel">
+    <Design.DataContext>
+        <vm:TutorialsViewModel>
+            <x:Arguments>
+                <appserv:AppSettingsService></appserv:AppSettingsService>
+                <sukii:SukiToastManager></sukii:SukiToastManager>
+                <appserv:VideoService></appserv:VideoService>
+                <appserv:WebService></appserv:WebService>
+            </x:Arguments>
+        </vm:TutorialsViewModel>
+    </Design.DataContext>
+    <suki:BusyArea IsBusy="{Binding IsBusy}">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch">
+            <ItemsControl ItemsSource="{Binding TutorialCards}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="md:TutorialCardsModel">
+                        <suki:GlassCard Padding="10" Margin="10" CornerRadius="10" 
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <suki:GroupBox Header="{Binding GroupName}" FontSize="20"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Stretch">
+                                <ItemsControl ItemsSource="{Binding Items}" Margin="0,5,0,0">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal" ItemSpacing="5" LineSpacing="5"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="md:WebTutorial">
+                                                <controls:TutorialCard Title="{Binding Title}" ImageSource="/Assets/Icon200x150.png" 
+                                                                       Command="{Binding #RootView.((vm:TutorialsViewModel)DataContext).OpenTutorialCommand}"
+                                                                       ImageHeight="150" ImageWidth="200" FontSize="14"
+                                                                       CommandParameter="{Binding ContentUrl}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </suki:GroupBox>
+                        </suki:GlassCard>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </suki:BusyArea>
+</UserControl>

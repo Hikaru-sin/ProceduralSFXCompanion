@@ -1,0 +1,32 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:suki="https://github.com/kikipoulet/SukiUI"
+        xmlns:controls="using:ProceduralSFXCompanion.Controls">
+  
+    <Design.PreviewWith>
+        <controls:TutorialCard Title="Dynamic Reverb System Setup" ImageSource="/Assets/Icon500.png" 
+                               ImageHeight="150" ImageWidth="150" FontSize="15"/>
+    </Design.PreviewWith>
+
+    <Style Selector="controls|TutorialCard">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Button Padding="0, 0, 0, 0" Classes="Outline" CornerRadius="10"
+                        Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}">
+                    <Border ClipToBounds="True" CornerRadius="10"
+                            Height="{TemplateBinding ImageHeight}" 
+                            Width="{TemplateBinding ImageWidth}">
+                        <Grid RowDefinitions="*, Auto">
+                            <Image Grid.Row="0" Grid.RowSpan="2" Source="{TemplateBinding ImageSource}" Stretch="Fill"/>
+                            <Border ClipToBounds="True" Grid.Row="1" CornerRadius="0" HorizontalAlignment="Stretch" Background="Black" Opacity="0.75"/>
+                            <TextBlock Grid.Row="1" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                       TextWrapping="Wrap" Foreground="WhiteSmoke"
+                                       TextAlignment="Center" FontSize="{TemplateBinding FontSize}"
+                                       Text="{TemplateBinding Title}"/>
+                        </Grid>
+                    </Border>
+                </Button>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

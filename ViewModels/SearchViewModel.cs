@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using ProceduralSFXCompanion.Controls;
 using ProceduralSFXCompanion.Models;
@@ -36,6 +37,19 @@ public partial class SearchViewModel : ViewModelBase
         private set => SetProperty(ref field, value);
     }
 
+    public int NumRowsToSearch
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                SearchWatermark = $"Search (total entries = {value})...";
+            }
+        }
+    }
+    public string? SearchWatermark {  get; set => SetProperty(ref field, value); }
+    
     public BulkObservableCollection<GraphDescription> SearchedEntries { get; set; }
     
     public SearchViewModel(AppSettingsService appSettingsService, ISukiToastManager toastManager, AudioService audioService)
@@ -45,6 +59,11 @@ public partial class SearchViewModel : ViewModelBase
         _audioService = audioService;
         FolderSelectorViewModel = new FolderSelectorViewModel(appSettingsService, appSettingsService.AppSettings.FolderPaths, toastManager);
         FolderSelectorViewModel.OnUserAddedFolder += (s, e) =>  { _ = OnUserAddedFolder(e); };
+        FolderSelectorViewModel.SelectedItems.CollectionChanged += (s, e) =>
+        {
+            using var connection = new SqliteConnection(_dbConn);
+            UpdateNumSearchRow(connection);
+        };
         _dbConn = "Data Source=" + Path.Combine(appSettingsService.SettingsFolderPath, "SearchIndex.db");
         _ = SyncFoldersAsync();
     }
@@ -67,7 +86,7 @@ public partial class SearchViewModel : ViewModelBase
                 folderItem, transaction);
             
             StartWatching(folder);
-            var files = Directory.GetFiles(folder, "*.txt", SearchOption.TopDirectoryOnly);
+            var files = Directory.GetFiles(folder, $"*{Constants.DescriptionExtension}", SearchOption.TopDirectoryOnly);
             foreach (var file in files)
             {
                 var content = await FileUtilities.ReadFirstSentenceAsync(file);
@@ -84,6 +103,7 @@ public partial class SearchViewModel : ViewModelBase
             
             await connection.ExecuteAsync("VACUUM");
             await connection.ExecuteAsync("PRAGMA optimize");
+            UpdateNumSearchRow(connection);
         }
         catch (Exception ex)
         {
@@ -131,7 +151,7 @@ public partial class SearchViewModel : ViewModelBase
                     continue;
 
                 StartWatching(folder);
-                var files = Directory.GetFiles(folder, "*.txt", SearchOption.TopDirectoryOnly);
+                var files = Directory.GetFiles(folder, $"*{Constants.DescriptionExtension}", SearchOption.TopDirectoryOnly);
                 foreach (var file in files)
                 {
                     foundFiles.Add(file);
@@ -182,6 +202,8 @@ public partial class SearchViewModel : ViewModelBase
                 await connection.ExecuteAsync("VACUUM", transaction);
             if (filesToUpdate.Count > 0)
                 await connection.ExecuteAsync("PRAGMA optimize", transaction);
+            
+            UpdateNumSearchRow(connection);
         }
         catch (Exception ex)
         {
@@ -198,19 +220,25 @@ public partial class SearchViewModel : ViewModelBase
             IsBusy = false;   
         }
     }
-    
-    public void DeleteEntry(string fileName)
+
+    private void UpdateNumSearchRow(SqliteConnection connection)
+    {
+        var allowFolders = new List<string>();
+        foreach (var folderItem in FolderSelectorViewModel.SelectedItems)
+        {
+            if (folderItem.Path is not null)
+                allowFolders.Add(folderItem.Path);
+        }
+        NumRowsToSearch = connection.ExecuteScalar<int>(
+            "SELECT COUNT(*) FROM GraphIndex WHERE FolderPath in @folders",
+            new { folders = allowFolders });
+    }
+
+    private void DeleteEntry(string fileName)
     {
         using var connection = new SqliteConnection(_dbConn);
         connection.Open();
         connection.Execute("DELETE FROM GraphIndex WHERE FileName = @fileName", new { fileName });
-    }
-
-    public void DeleteEntriesByFolder(string folderPath)
-    {
-        using var connection = new SqliteConnection(_dbConn);
-        connection.Open();
-        connection.Execute("DELETE FROM GraphIndex WHERE FolderPath = @folderPath", new { folderPath });
     }
     
     private void StartWatching(string path)
@@ -220,7 +248,7 @@ public partial class SearchViewModel : ViewModelBase
             if(_watchers.ContainsKey(path))
                 return;
             
-            var watcher = new FileSystemWatcher(path, "*.txt")
+            var watcher = new FileSystemWatcher(path, $"*{Constants.DescriptionExtension}")
             {
                 IncludeSubdirectories = false,
                 EnableRaisingEvents = true,
@@ -310,18 +338,57 @@ public partial class SearchViewModel : ViewModelBase
         if (String.IsNullOrWhiteSpace(searchTerm))
             return;
         
-        string cleanSearch = Regex.Replace(searchTerm, @"[^a-zA-Z0-9\s]", " ").Trim();
+        string cleanSearch = Regex.Replace(searchTerm, @"[^a-zA-Z0-9\s""]", " ").Trim();
         if (String.IsNullOrWhiteSpace(cleanSearch))
             return;
         
         IsBusy = true;
         try
         {
-            var terms = cleanSearch.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(term =>
+            StringBuilder inQuote = new StringBuilder();
+            StringBuilder outQuote = new StringBuilder();
+            const string pattern = @"""(.*?)""|([^""]+)";
+            foreach (Match match in Regex.Matches(cleanSearch, pattern))
             {
-                return $"\"{term}\"*";
-            });
-            string formattedQuery = string.Join(" OR ", terms);
+                if (match.Groups[1].Success)
+                {
+                    string text = match.Groups[1].Value.Trim();
+                    if (!String.IsNullOrWhiteSpace(text))
+                    {
+                        if(inQuote.Length > 0)
+                            inQuote.Append($" OR \"{text}\"");
+                        else
+                            inQuote.Append($"\"{text}\"");
+                    }
+                }
+                else if (match.Groups[2].Success)
+                {
+                    string text = match.Groups[2].Value.Trim();
+                    if (!String.IsNullOrWhiteSpace(text))
+                        outQuote.Append($" {text}");
+                }
+            }
+
+            var inQuoteStr = inQuote.ToString();
+            bool isHasInQuote = !String.IsNullOrEmpty(inQuoteStr);
+            var outQuoteStr = outQuote.ToString();
+            bool isHasOutQuote = !String.IsNullOrEmpty(outQuoteStr);
+            string formattedOutQuote = "";
+            if (isHasOutQuote)
+            {
+                var terms = outQuoteStr.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(term => $"\"{term}\"*");
+                formattedOutQuote = string.Join(" OR ", terms);
+            }
+            
+            string formattedQuery;
+            if (isHasInQuote && isHasOutQuote)
+                formattedQuery = $"{inQuoteStr} OR {formattedOutQuote}";
+            else if (isHasInQuote)
+                formattedQuery = inQuoteStr;
+            else if (isHasOutQuote)
+                formattedQuery = formattedOutQuote;
+            else
+                return;
             
             await using var connection = new SqliteConnection(_dbConn);
             var allowFolders = new List<string>();
@@ -330,13 +397,13 @@ public partial class SearchViewModel : ViewModelBase
                 if (folderItem.Path is not null)
                     allowFolders.Add(folderItem.Path);
             }
-
+                
             var results = await connection.QueryAsync<GraphDescription>(
                 @"SELECT FileName, FolderPath, highlight(GraphIndex, 2, '<b>', '</b>') AS Content, LastModified 
                         FROM GraphIndex 
                         WHERE Content MATCH @query 
                         AND FolderPath IN @folders 
-                        ORDER BY bm25(GraphIndex) ASC 
+                        ORDER BY bm25(GraphIndex, 0, 0, 10.0) ASC 
                         LIMIT 1000", new { query = formattedQuery, folders = allowFolders });
 
             SearchedEntries.StartSuppressNotification();
@@ -384,6 +451,12 @@ public partial class SearchViewModel : ViewModelBase
         }
         
         _audioService.Play(filePath);
+    }
+    
+    [RelayCommand]
+    public void OpenInExplorer(GraphDescription item)
+    {
+        FileUtilities.ShowInFolder(item.FileName);
     }
     
     [RelayCommand]

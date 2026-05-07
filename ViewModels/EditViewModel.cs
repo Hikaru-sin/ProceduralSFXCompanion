@@ -4,20 +4,17 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using ProceduralSFXCompanion.Controls;
 using ProceduralSFXCompanion.Models;
 using ProceduralSFXCompanion.Services;
-using SukiUI.Dialogs;
 using SukiUI.Toasts;
-using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using AvaloniaEdit.Document;
 using CommunityToolkit.Mvvm.Input;
 using ProceduralSFXCompanion.Collections;
 using ProceduralSFXCompanion.Utilities;
@@ -37,53 +34,31 @@ public partial class EditViewModel : ViewModelBase
     }
     
     public FolderEditSelectorViewModel FolderEditSelectorViewModel { get; }
-    private AppSettingsService _appSettingsService;
+    private readonly AppSettingsService _appSettingsService;
     private readonly ISukiToastManager _toastManager;
     private  readonly AudioService _audioService;
-    private bool _isGraphTextChanged;
-    private bool _isDescriptionTextChanged;
-    
+
     public bool IsBusy { get; set => SetProperty(ref field, value); }
 
     public string? AudioFolderPath
     {
         get;
-        set
-        {
-            if (SetProperty(ref field, value))
-            {
-                _appSettingsService.AppSettings.AudioFolderToCopyPath = value;
-                _appSettingsService.MarkAsModified();
-            }
-        }
+        set => SetProperty(ref field, value);
     }
 
-    public string? GraphText
-    {
-        get;
-        set
-        {
-            if (SetProperty(ref field, value))
-                _isGraphTextChanged = true;
-        }
-    }
-
-    public string? DescriptionText {
-        get;
-        set
-        {
-            if (SetProperty(ref field, value))
-                _isDescriptionTextChanged = true;
-        }
-    }
+    public string? GraphTextDisplay { get; set => SetProperty(ref field, value); }
+    public string? GraphTextSave { get; set; }
     
+    public TextDocument DescriptionTextDisplay { get; set => SetProperty(ref field, value); }
+    public string? DescriptionTextSave { get; set; }
+
     public int NumFiles { get; set => SetProperty(ref field, value); }
     public bool IsAutoSave { get; set => SetProperty(ref field, value); }
     public bool CanSave { get; set => SetProperty(ref field, value); }
     public string? FileNamePrefix { get; set => SetProperty(ref field, value); }
     public string? CurrentDescriptionFileName { get; set => SetProperty(ref field, value); }
     public string? CurrentGraphFileName { get; set => SetProperty(ref field, value); }
-    
+    public bool HasAudioInEditingFolder { get; set => SetProperty(ref field, value); }
     public ObservableCollection<ItemSelection> AudioCopyModes { get; set => SetProperty(ref field, value); }
     public ItemSelection? CurrentAudioCopyMode { get; set => SetProperty(ref field, value); }
     public bool IsAudioOverwrite { get; set => SetProperty(ref field, value); }
@@ -107,12 +82,13 @@ public partial class EditViewModel : ViewModelBase
         _appSettingsService = appSettingsService;
         _toastManager = toastManager;
         _audioService = audioService;
+        DescriptionTextDisplay = new TextDocument();
         AudioFolderPath = appSettingsService.AppSettings.AudioFolderToCopyPath;
         FolderEditSelectorViewModel = new FolderEditSelectorViewModel(appSettingsService, appSettingsService.AppSettings.EditingFolderPaths, toastManager);
         _ = UpdateFolderChanged(FolderEditSelectorViewModel.SelectedItem?.Path);
         FolderEditSelectorViewModel.OnSelectedFolderChanged += (sender, item) => { _ = UpdateFolderChanged(item?.Path); };
         IsAutoSave = true;
-
+                
         AudioCopyModes = new ObservableCollection<ItemSelection>();
         foreach (var item in Enum.GetValues(typeof(AudioCopyMode)).Cast<AudioCopyMode>())
         {
@@ -125,33 +101,33 @@ public partial class EditViewModel : ViewModelBase
             AudioCopyModes.Add(newMode);
         }
     }
-    
-    private async Task UpdateFolderChanged(string? folderPath)
+
+    private async Task<bool> UpdateFolderChanged(string? folderPath)
     {
-        if(IsBusy)
-            return;
-        
+        if (IsBusy)
+            return false;
+
         if (folderPath is null)
-            return;
+            return false;
 
         if (!Directory.Exists(folderPath))
         {
             _toastManager.CreateToast().OfType(NotificationType.Error)
-                                        .WithTitle("Folder not found!")
-                                        .WithContent($"{folderPath} does not exist!")
-                                        .Dismiss().After(TimeSpan.FromSeconds(3))
-                                        .Dismiss().ByClicking().Queue();
-            return;
+                .WithTitle("Folder not found!")
+                .WithContent($"{folderPath} does not exist!")
+                .Dismiss().After(TimeSpan.FromSeconds(3))
+                .Dismiss().ByClicking().Queue();
+            return false;
         }
-        
+
         try
         {
             IsBusy = true;
             await SaveFileIfNeededAsync(CurrentFileIndex);
-            
+
             NumFiles = 0;
             CurrentFileIndex = 0;
-            
+
             await Task.Run(() =>
             {
                 _allFiles = FileUtilities.GetFilesByCreationDate(folderPath);
@@ -189,11 +165,13 @@ public partial class EditViewModel : ViewModelBase
             IsBusy = false;
         }
 
-        if (_allFiles.Count == 0)
-            return;
+        if (_allFiles.Count > 0)
+        {
+            NumFiles = _allFiles.Count;
+            CurrentFileIndex = 1;
+        }
 
-        NumFiles = _allFiles.Count;
-        CurrentFileIndex = 1;
+        return true;
     }
 
     private async Task OnCurrentFileIndexChanged(int oldValue)
@@ -225,13 +203,12 @@ public partial class EditViewModel : ViewModelBase
                 return;
             }
 
-            GraphText = await File.ReadAllTextAsync(graphFilePath);
-            DescriptionText = await File.ReadAllTextAsync(currentFile.FullName);
-
-            //Suppress text changed on first read
-            _isGraphTextChanged = false;
-            _isDescriptionTextChanged = false;
-        
+            GraphTextSave = await File.ReadAllTextAsync(graphFilePath);
+            DescriptionTextSave = await File.ReadAllTextAsync(currentFile.FullName);
+            GraphTextDisplay = GraphTextSave;
+            DescriptionTextDisplay.Text = DescriptionTextSave;
+            HasAudioInEditingFolder = File.Exists(Path.ChangeExtension(currentFile.FullName, Constants.AudioExtension));
+            
             CurrentDescriptionFileName = Path.GetFileName(currentFile.Name);
             CurrentGraphFileName = Path.GetFileName(graphFilePath);
         }
@@ -252,7 +229,17 @@ public partial class EditViewModel : ViewModelBase
     [RelayCommand]
     public async Task RefreshCurrentFolder()
     {
-        await UpdateFolderChanged(FolderEditSelectorViewModel.SelectedItem?.Path);
+        bool isSuccess = await UpdateFolderChanged(FolderEditSelectorViewModel.SelectedItem?.Path);
+        if (isSuccess)
+        {
+            _toastManager.CreateToast()
+                .OfType(NotificationType.Success)
+                .WithTitle("The current folder has been refreshed")
+                .WithContent("All changes to the folder outside of the app has been updated.")
+                .Dismiss().After(TimeSpan.FromSeconds(2))
+                .Dismiss().ByClicking()
+                .Queue();
+        }
     }
     
     [RelayCommand]
@@ -292,19 +279,19 @@ public partial class EditViewModel : ViewModelBase
             string newGraphFilePath;
             if (String.IsNullOrEmpty(prefix))
             {
-                newDescriptionFilePath = Path.Combine(folderPath, $"{affix}.txt");
+                newDescriptionFilePath = Path.Combine(folderPath, $"{affix}{Constants.DescriptionExtension}");
                 newGraphFilePath = Path.Combine(folderPath, $"{affix}{Constants.GraphExtension}");
                 affix++;
             }
             else
             {
-                newDescriptionFilePath = Path.Combine(folderPath, $"{prefix}.txt");
+                newDescriptionFilePath = Path.Combine(folderPath, $"{prefix}{Constants.DescriptionExtension}");
                 newGraphFilePath = Path.Combine(folderPath, $"{prefix}{Constants.GraphExtension}");
             }
 
             while (File.Exists(newDescriptionFilePath) || File.Exists(newGraphFilePath))
             {
-                newDescriptionFilePath = Path.Combine(folderPath, $"{prefix}{affix}.txt");
+                newDescriptionFilePath = Path.Combine(folderPath, $"{prefix}{affix}{Constants.DescriptionExtension}");
                 newGraphFilePath = Path.Combine(folderPath, $"{prefix}{affix}{Constants.GraphExtension}");
                 affix++;
             }
@@ -332,6 +319,120 @@ public partial class EditViewModel : ViewModelBase
         CurrentFileIndex = _allFiles.Count;
     }
     
+    public async Task HandleDroppedFiles(string filePath)
+    {
+        if (IsBusy)
+            return;
+
+        if (FolderEditSelectorViewModel.SelectedItem is null)
+        {
+            _toastManager.CreateToast().OfType(NotificationType.Error)
+                .WithTitle("No Selected Folder!")
+                .WithContent("Please select a folder first!")
+                .Dismiss().After(TimeSpan.FromSeconds(2))
+                .Dismiss().ByClicking().Queue();
+            return;
+        }
+
+        var folderPath = FolderEditSelectorViewModel.SelectedItem.Path;
+        if (!Directory.Exists(folderPath))
+        {
+            _toastManager.CreateToast().OfType(NotificationType.Error)
+                .WithTitle("Invalid Folder Path!")
+                .WithContent("The folder is either changed or removed. Please select a new folder!")
+                .Dismiss().After(TimeSpan.FromSeconds(2))
+                .Dismiss().ByClicking().Queue();
+            return;
+        }
+
+        int? fileIndex = null;
+        try
+        {
+            IsBusy = true;
+            var sourceFolder = Path.GetDirectoryName(filePath);
+            if (String.Equals(sourceFolder, folderPath, StringComparison.InvariantCultureIgnoreCase))
+            {
+                fileIndex = GetFileIndexInEditingFolderByName(filePath);
+            }
+            else
+            {
+                fileIndex = await CopyFileToEditingFolder(filePath);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            _toastManager.CreateToast().OfType(NotificationType.Error)
+                .WithTitle("Error!")
+                .WithContent($"{e.Message}")
+                .Dismiss().After(TimeSpan.FromSeconds(2))
+                .Dismiss().ByClicking().Queue();
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+
+        if (fileIndex is not null)
+            CurrentFileIndex = fileIndex.Value;
+    }
+
+    private int GetFileIndexInEditingFolderByName(string filePath)
+    {
+        if(_allFiles.Count == 0)
+            throw new Exception("Current folder is empty!");
+        
+        filePath = Path.ChangeExtension(filePath, Constants.DescriptionExtension);
+        for(int i = 0; i < _allFiles.Count; i++)
+        {
+            var file = _allFiles[i];
+            if (String.Equals(file.FullName, filePath, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return i + 1;
+            }
+        }
+        
+        throw new FileNotFoundException($"Can't find {filePath} in the current folder!");
+    }
+
+    private async Task<int> CopyFileToEditingFolder(string sourceFilePath)
+    {
+        if(!File.Exists(sourceFilePath))
+            throw new FileNotFoundException($"Can't find {sourceFilePath}!");
+        
+        string? destFolderPath = FolderEditSelectorViewModel.SelectedItem?.Path;
+        if (!Directory.Exists(destFolderPath))
+            throw new Exception("The current selected folder isn't valid!");
+        
+        string fileFullName = Path.Combine(destFolderPath, Path.GetFileName(sourceFilePath));
+        string destDescriptionFilePath = Path.ChangeExtension(fileFullName, Constants.DescriptionExtension);
+        string destGraphFilePath = Path.ChangeExtension(fileFullName, Constants.GraphExtension);
+        string destAudioFilePath = Path.ChangeExtension(fileFullName, Constants.AudioExtension);
+        if (File.Exists(destDescriptionFilePath) || File.Exists(destGraphFilePath) || File.Exists(destAudioFilePath))
+            throw new Exception("A file with the same name already exists! Please rename your file!");
+        
+        string sourceDescriptionFilePath = Path.ChangeExtension(sourceFilePath, Constants.DescriptionExtension);
+        string sourceGraphFilePath = Path.ChangeExtension(sourceFilePath, Constants.GraphExtension);
+        string sourceAudioFilePath = Path.ChangeExtension(sourceFilePath, Constants.AudioExtension);
+        if (File.Exists(sourceDescriptionFilePath))
+            File.Copy(sourceDescriptionFilePath, destDescriptionFilePath);
+        else
+            await File.WriteAllTextAsync(destDescriptionFilePath, "");
+        
+        if (File.Exists(sourceGraphFilePath))
+            File.Copy(sourceGraphFilePath, destGraphFilePath);
+        else
+            await File.WriteAllTextAsync(destGraphFilePath, "");
+        
+        if (File.Exists(sourceAudioFilePath))
+            File.Copy(sourceAudioFilePath, destAudioFilePath);
+        
+        FileInfo newFile = new FileInfo(destDescriptionFilePath);
+        _allFiles.Add(newFile);
+        NumFiles = _allFiles.Count;
+        return _allFiles.Count;
+    }
+    
     [RelayCommand]
     public async Task SaveCurrentFiles()
     {
@@ -339,8 +440,7 @@ public partial class EditViewModel : ViewModelBase
             return;
         
         IsBusy = true;
-        bool isSaveNeeded = _isDescriptionTextChanged || _isGraphTextChanged;
-        if(isSaveNeeded)
+        if(IsDisplayTextChanged())
             await SaveFileIndexAsync(CurrentFileIndex);
         else
         {
@@ -354,6 +454,30 @@ public partial class EditViewModel : ViewModelBase
         IsBusy = false;
     }
 
+    private bool IsDisplayTextChanged()
+    {
+        if (GraphTextDisplay is null && DescriptionTextDisplay.Text is null)
+            return false;
+
+        if (String.IsNullOrWhiteSpace(GraphTextDisplay) && String.IsNullOrWhiteSpace(GraphTextSave)
+                                                        && String.IsNullOrWhiteSpace(DescriptionTextSave) &&
+                                                        String.IsNullOrWhiteSpace(DescriptionTextDisplay.Text))
+            return false;
+
+        GraphTextSave ??= "";
+        GraphTextDisplay ??= "";
+        DescriptionTextSave ??= "";
+        DescriptionTextDisplay.Text ??= "";
+        
+        if (GraphTextSave.Length != GraphTextDisplay.Length
+            || DescriptionTextDisplay.Text.Length != DescriptionTextSave.Length
+            || !String.Equals(GraphTextSave, GraphTextDisplay, StringComparison.Ordinal)
+            || !String.Equals(DescriptionTextDisplay.Text, DescriptionTextSave, StringComparison.Ordinal))
+            return true;
+        
+        return false;
+    }
+
     private async Task SaveFileIfNeededAsync(int fileIndex)
     {
         if(IsAutoSave)
@@ -364,7 +488,7 @@ public partial class EditViewModel : ViewModelBase
     {
         try
         {
-            bool isSaveNeeded = _allFiles.Count > 0 && (_isDescriptionTextChanged || _isGraphTextChanged);
+            bool isSaveNeeded = _allFiles.Count > 0 && IsDisplayTextChanged();
             if(!isSaveNeeded)
                 return;
             
@@ -389,16 +513,13 @@ public partial class EditViewModel : ViewModelBase
                 return;
             }
             
-            if (_isDescriptionTextChanged)
-                await File.WriteAllTextAsync(descriptionFilePath, DescriptionText);
-            if (_isGraphTextChanged)
-                await File.WriteAllTextAsync(graphFilePath, GraphText);
-           
-            _isDescriptionTextChanged = false;
-            _isGraphTextChanged = false;
+            DescriptionTextSave = DescriptionTextDisplay.Text;
+            GraphTextSave = GraphTextDisplay;
+            await File.WriteAllTextAsync(descriptionFilePath, DescriptionTextSave);
+            await File.WriteAllTextAsync(graphFilePath, GraphTextSave);
 
             CopyAudioIfNeeded(descriptionFilePath);
-
+            
             if (isSaveNeeded)
             {
                 _toastManager.CreateToast().OfType(NotificationType.Success)
@@ -428,6 +549,7 @@ public partial class EditViewModel : ViewModelBase
             return;
         
         File.Copy(sourceFile.FullName, destAudioPath, true);
+        HasAudioInEditingFolder = File.Exists(sourceFile.FullName);
     }
 
     private FileInfo? GetSelectedSourceAudioPath(string destAudioPath)
@@ -495,8 +617,9 @@ public partial class EditViewModel : ViewModelBase
     {
         if(IsBusy || _allFiles.Count == 0)
             return;
-        
-        CurrentFileIndex = Math.Clamp(CurrentFileIndex + 1, 1, _allFiles.Count);
+
+        var newIndex = Math.Max(1, CurrentFileIndex + 1);
+        CurrentFileIndex = newIndex > _allFiles.Count ? 1 : newIndex;
     }
     
     [RelayCommand]
@@ -505,7 +628,8 @@ public partial class EditViewModel : ViewModelBase
         if(IsBusy || _allFiles.Count == 0)
             return;
         
-        CurrentFileIndex = Math.Clamp(CurrentFileIndex - 1, 1, _allFiles.Count);
+        var newIndex = Math.Min(_allFiles.Count, CurrentFileIndex - 1);
+        CurrentFileIndex = newIndex < 1 ? _allFiles.Count : newIndex;
     }
     
     public async Task OnAudioFolderPathClicked(object parameter)
@@ -523,7 +647,11 @@ public partial class EditViewModel : ViewModelBase
             });
 
             if (folders.Count > 0)
+            {
                 AudioFolderPath = folders[0].Path.LocalPath;
+                _appSettingsService.AppSettings.AudioFolderToCopyPath = AudioFolderPath;
+                _appSettingsService.MarkAsModified();
+            }
         }
         catch (Exception e)
         {
@@ -536,8 +664,41 @@ public partial class EditViewModel : ViewModelBase
                 .Queue();
         }
     }
+    
+    public void PlayAudioInEditingFolder()
+    {
+        if(IsBusy || !HasAudioInEditingFolder)
+            return;
 
-    public async Task PlayAudio()
+        var currentFileIndex = CurrentFileIndex - 1;
+        if (currentFileIndex < 0 || currentFileIndex >= _allFiles.Count)
+        {
+            _toastManager.CreateToast()
+                .OfType(NotificationType.Error)
+                .WithTitle("Not files!")
+                .WithContent("The current editing folder doesn't have any valid files!")
+                .Dismiss().After(TimeSpan.FromSeconds(2))
+                .Dismiss().ByClicking()
+                .Queue();
+            return;
+        }
+
+        var audioPath = Path.ChangeExtension(_allFiles[currentFileIndex].FullName, Constants.AudioExtension);
+        if(File.Exists(audioPath))
+            _audioService.Play(audioPath);
+        else
+        {
+            _toastManager.CreateToast()
+                .OfType(NotificationType.Error)
+                .WithTitle("File not found!")
+                .WithContent("The respective audio file in the editing folder could not be found!")
+                .Dismiss().After(TimeSpan.FromSeconds(3))
+                .Dismiss().ByClicking()
+                .Queue();
+        }
+    }
+
+    public void PlayAudioInCopySourceFolder()
     {
         if(IsBusy)
             return;
@@ -586,4 +747,17 @@ public partial class EditViewModel : ViewModelBase
 
         _audioService.Play(sourceFile.FullName);
     }
+    
+    [RelayCommand]
+    public void OpenEditingFileInExplorer(string fileName)
+    {
+        if(FolderEditSelectorViewModel.SelectedItem is null
+           || FolderEditSelectorViewModel.SelectedItem.Path is null
+           || _allFiles.Count == 0)
+            return;
+        
+        var filePath = Path.Combine(FolderEditSelectorViewModel.SelectedItem.Path, fileName);
+        FileUtilities.ShowInFolder(filePath);
+    }
+    
 }

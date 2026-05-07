@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Avalonia.Data.Converters;
+using Avalonia.Input;
 
 namespace ProceduralSFXCompanion.Utilities;
 

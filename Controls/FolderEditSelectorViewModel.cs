@@ -67,9 +67,24 @@ public partial class FolderEditSelectorViewModel : ViewModelBase
     
     private void OnSelectedItemsChanged(object sender, FolderItem? oldItem, FolderItem? newItem)
     {
-        oldItem?.IsSelected = false;
-        newItem?.IsSelected = true;
-        _appSettingsService.MarkAsModified();
+        if (oldItem is not null)
+        {
+            if (oldItem.IsSelected)
+            {
+                oldItem.IsSelected = false;
+                _appSettingsService.MarkAsModified();
+            }
+        }
+        
+
+        if (newItem is not null)
+        {
+            if (newItem.IsSelected == false)
+            {
+                newItem.IsSelected = true;
+                _appSettingsService.MarkAsModified();
+            }
+        }
         OnSelectedFolderChanged?.Invoke(sender,  newItem);
     }
 

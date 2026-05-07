@@ -218,4 +218,5 @@ project.lock.json
 *.feature.xlsx.*
 *.Specs_*.html
 
-/Assets/*
+Assets/*
+Resources/*

@@ -11,7 +11,7 @@
                    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                    x:Class="ProceduralSFXCompanion.Views.MainWindow"
                    x:DataType="vm:MainWindowViewModel"
-                   Icon="/Assets/Icon500.png"
+                   Icon="/Assets/AppIcon.ico"
                    Title="Procedural SFX Companion"
                    IsTitleBarVisible="True"
                    BackgroundStyle="Flat">
@@ -25,6 +25,8 @@
                 <x:Null/>
                 <appserv:AppSettingsService></appserv:AppSettingsService>
                 <x:Null/>
+                <x:Null/>
+                <appserv:WebService></appserv:WebService>
             </x:Arguments>
         </vm:MainWindowViewModel>
     </Design.DataContext>
@@ -62,11 +64,17 @@
                     <ContentControl Content="{Binding EditViewModel}"></ContentControl>
                 </suki:SukiSideMenuItem.PageContent>
             </suki:SukiSideMenuItem>
-            <!-- Other Pages -->
-
+            
+            <suki:SukiSideMenuItem Header="Tutorials" Classes="Compacts" >
+                <suki:SukiSideMenuItem.Icon>
+                    <avalonia:MaterialIcon Kind="HelpCircle" />
+                </suki:SukiSideMenuItem.Icon>
+                <suki:SukiSideMenuItem.PageContent>
+                    <ContentControl Content="{Binding TutorialsViewModel}"></ContentControl>
+                </suki:SukiSideMenuItem.PageContent>
+            </suki:SukiSideMenuItem>
         </suki:SukiSideMenu.Items>
-
-
+        
         <suki:SukiSideMenu.HeaderContent >
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical">
                 <Button Classes="Basic"
@@ -89,14 +97,33 @@
                         <Setter Property="Command" Value="{Binding OpenUrlCommand}" />
                     </Style>
                     <Style Selector="avalonia|MaterialIcon">
-                        <Setter Property="Width" Value="25" />
-                        <Setter Property="Height" Value="25" />
+                        <Setter Property="Width" Value="20" />
+                        <Setter Property="Height" Value="20" />
                     </Style>
                 </StackPanel.Styles>
                 <Button Classes="Basic"
-                        CommandParameter="https://github.com/Hikaru-sin/ProceduralSFXCompanion"
-                        ToolTip.Tip="Open GitHub repo.">
-                    <avalonia:MaterialIcon Kind="Github" />
+                        Command="{Binding OpenUrlCommand}"
+                        CommandParameter="https://www.youtube.com/playlist?list=PL6I02H0hsZLNv0467YNp0G6fmQIFzaseT"
+                        ToolTip.Tip="Open youtube playlist.">
+                    <avalonia:MaterialIcon Kind="Youtube" />
+                </Button>
+                <Button Classes="Basic"
+                        Command="{Binding OpenUrlCommand}"
+                        CommandParameter="https://discord.gg/aCXxZmNvxn"
+                        ToolTip.Tip="Open discord support.">
+                    <avalonia:MaterialIcon Kind="Chat" />
+                </Button>
+                <Button Classes="Basic"
+                        Command="{Binding OpenUrlCommand}"
+                        CommandParameter="https://drive.google.com/file/d/10ucRlIAW4eBokcX94NlFJVbaMk42_UuL/view"
+                        ToolTip.Tip="Open documentation.">
+                    <avalonia:MaterialIcon Kind="DriveDocument" />
+                </Button>
+                <Button Classes="Basic"
+                        Command="{Binding OpenUrlCommand}"
+                        CommandParameter="https://github.com/Hikaru-sin/ProceduralSFXCompanion/blob/main/LICENSE"
+                        ToolTip.Tip="Open license file on github.">
+                    <avalonia:MaterialIcon Kind="Info" />
                 </Button>
                 <Button Classes="Basic"
                         Command="{Binding CheckForUpdatesCommand}"
