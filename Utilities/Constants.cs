@@ -4,6 +4,8 @@ namespace ProceduralSFXCompanion.Utilities;
 
 public static class Constants
 {
+    public static readonly Version? AppVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+    
     public const string DictionariesFolder = "Resources\\Dictionaries";
     public const string DefaultGraphFolder = "Resources\\Default Graphs";
     public const string DescriptionExtension = ".txt";
@@ -19,5 +21,5 @@ public static class Constants
     
     public const string UngroupTutorial = "Uncategorized";
     
-    public static readonly Version? AppVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+    public const string MetaSoundsNodeDefsFolder = "MetaSounds\\NodeDefs";
 }

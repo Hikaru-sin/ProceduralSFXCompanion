@@ -15,6 +15,9 @@
 		<None Update="Resources\**">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	    </None>
+        <None Update="MetaSounds\NodeDefs\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 	 <PropertyGroup>
@@ -58,10 +61,5 @@
         <DependentUpon>FolderEditSelectorView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Resources\Videos\DynamicReverbSystemSetup.mp4" />
-      <None Remove="Resources\Videos\DynamicReverbSystemSetup.png" />
     </ItemGroup>
 </Project>

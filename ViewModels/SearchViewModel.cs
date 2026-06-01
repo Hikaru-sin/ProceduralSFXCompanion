@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,6 @@ using System.Text.RegularExpressions;
 using ProceduralSFXCompanion.Controls;
 using ProceduralSFXCompanion.Models;
 using ProceduralSFXCompanion.Services;
-using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using Microsoft.Data.Sqlite;
 using Dapper;
@@ -16,8 +14,10 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ProceduralSFXCompanion.Collections;
+using ProceduralSFXCompanion.MetaSounds;
 using ProceduralSFXCompanion.Utilities;
 
 namespace ProceduralSFXCompanion.ViewModels;
@@ -30,7 +30,25 @@ public partial class SearchViewModel : ViewModelBase
     private readonly ISukiToastManager _toastManager;
     private readonly AudioService _audioService;
     private readonly Dictionary<string, FileSystemWatcher> _watchers = new();
-        
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsGraphEdited))]
+    private bool _mergeOnPlayTriggers = true;
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsGraphEdited))]
+    private bool _encloseWithComment = true;
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsGraphEdited))]
+    private bool _mergeSameTimes = false;
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsGraphEdited))]
+    private bool _mergeSameFloats = false;
+    
+    public bool IsGraphEdited => MergeOnPlayTriggers || EncloseWithComment || MergeSameFloats || MergeSameTimes;
+    
     public bool IsBusy
     {
         get;
@@ -49,6 +67,8 @@ public partial class SearchViewModel : ViewModelBase
         }
     }
     public string? SearchWatermark {  get; set => SetProperty(ref field, value); }
+
+    private int _triggerLocalVariableNameCounter;
     
     public BulkObservableCollection<GraphDescription> SearchedEntries { get; set; }
     
@@ -59,7 +79,7 @@ public partial class SearchViewModel : ViewModelBase
         _audioService = audioService;
         FolderSelectorViewModel = new FolderSelectorViewModel(appSettingsService, appSettingsService.AppSettings.FolderPaths, toastManager);
         FolderSelectorViewModel.OnUserAddedFolder += (s, e) =>  { _ = OnUserAddedFolder(e); };
-        FolderSelectorViewModel.SelectedItems.CollectionChanged += (s, e) =>
+        FolderSelectorViewModel.SelectedItems.CollectionChanged += (_, _) =>
         {
             using var connection = new SqliteConnection(_dbConn);
             UpdateNumSearchRow(connection);
@@ -81,7 +101,7 @@ public partial class SearchViewModel : ViewModelBase
         try
         {
             IsBusy = true;
-            // Delete if has before adding to make sure all entries are up to date
+            // Delete if we have a folder before adding to make sure all entries are up to date
             _ = await connection.ExecuteAsync("DELETE FROM GraphIndex WHERE FolderPath = @Path",
                 folderItem, transaction);
             
@@ -255,10 +275,10 @@ public partial class SearchViewModel : ViewModelBase
                 NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName
             };
 
-            watcher.Changed += async (s, e) => await HandleUpdate(e.FullPath, path);
-            watcher.Created += async (s, e) => await HandleUpdate(e.FullPath, path);
-            watcher.Deleted += (s, e) => DeleteEntry(e.FullPath);
-            watcher.Renamed += async (s, e) => { DeleteEntry(e.OldFullPath); 
+            watcher.Changed += async (_, e) => await HandleUpdate(e.FullPath, path);
+            watcher.Created += async (_, e) => await HandleUpdate(e.FullPath, path);
+            watcher.Deleted += (_, e) => DeleteEntry(e.FullPath);
+            watcher.Renamed += async (_, e) => { DeleteEntry(e.OldFullPath); 
                                                                       await HandleUpdate(e.FullPath, path); };
             _watchers.Add(path, watcher);
         }
@@ -335,77 +355,23 @@ public partial class SearchViewModel : ViewModelBase
     [RelayCommand]
     public async Task SearchDescriptions(string searchTerm)
     {
-        if (String.IsNullOrWhiteSpace(searchTerm))
-            return;
-        
-        string cleanSearch = Regex.Replace(searchTerm, @"[^a-zA-Z0-9\s""]", " ").Trim();
-        if (String.IsNullOrWhiteSpace(cleanSearch))
-            return;
-        
-        IsBusy = true;
         try
         {
-            StringBuilder inQuote = new StringBuilder();
-            StringBuilder outQuote = new StringBuilder();
-            const string pattern = @"""(.*?)""|([^""]+)";
-            foreach (Match match in Regex.Matches(cleanSearch, pattern))
-            {
-                if (match.Groups[1].Success)
-                {
-                    string text = match.Groups[1].Value.Trim();
-                    if (!String.IsNullOrWhiteSpace(text))
-                    {
-                        if(inQuote.Length > 0)
-                            inQuote.Append($" OR \"{text}\"");
-                        else
-                            inQuote.Append($"\"{text}\"");
-                    }
-                }
-                else if (match.Groups[2].Success)
-                {
-                    string text = match.Groups[2].Value.Trim();
-                    if (!String.IsNullOrWhiteSpace(text))
-                        outQuote.Append($" {text}");
-                }
-            }
-
-            var inQuoteStr = inQuote.ToString();
-            bool isHasInQuote = !String.IsNullOrEmpty(inQuoteStr);
-            var outQuoteStr = outQuote.ToString();
-            bool isHasOutQuote = !String.IsNullOrEmpty(outQuoteStr);
-            string formattedOutQuote = "";
-            if (isHasOutQuote)
-            {
-                var terms = outQuoteStr.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(term => $"\"{term}\"*");
-                formattedOutQuote = string.Join(" OR ", terms);
-            }
+            IsBusy = true;
             
-            string formattedQuery;
-            if (isHasInQuote && isHasOutQuote)
-                formattedQuery = $"{inQuoteStr} OR {formattedOutQuote}";
-            else if (isHasInQuote)
-                formattedQuery = inQuoteStr;
-            else if (isHasOutQuote)
-                formattedQuery = formattedOutQuote;
+            if (String.IsNullOrWhiteSpace(searchTerm))
+                return;
+        
+            IEnumerable<GraphDescription>? results;
+            
+            if(String.Equals(searchTerm, "*"))
+                results = await GetAllEntries();
             else
+                results = await SearchTable(searchTerm);
+            
+            if(results is null)
                 return;
             
-            await using var connection = new SqliteConnection(_dbConn);
-            var allowFolders = new List<string>();
-            foreach (var folderItem in FolderSelectorViewModel.SelectedItems)
-            {
-                if (folderItem.Path is not null)
-                    allowFolders.Add(folderItem.Path);
-            }
-                
-            var results = await connection.QueryAsync<GraphDescription>(
-                @"SELECT FileName, FolderPath, highlight(GraphIndex, 2, '<b>', '</b>') AS Content, LastModified 
-                        FROM GraphIndex 
-                        WHERE Content MATCH @query 
-                        AND FolderPath IN @folders 
-                        ORDER BY bm25(GraphIndex, 0, 0, 10.0) ASC 
-                        LIMIT 1000", new { query = formattedQuery, folders = allowFolders });
-
             SearchedEntries.StartSuppressNotification();
             SearchedEntries.Clear();
             foreach (var result in results)
@@ -433,7 +399,91 @@ public partial class SearchViewModel : ViewModelBase
             IsBusy = false;   
         }
     }
+
+    private async Task<IEnumerable<GraphDescription>> GetAllEntries()
+    {
+        await using var connection = new SqliteConnection(_dbConn);
+        var allowFolders = new List<string>();
+        foreach (var folderItem in FolderSelectorViewModel.SelectedItems)
+        {
+            if (folderItem.Path is not null)
+                allowFolders.Add(folderItem.Path);
+        }
+                
+        return  await connection.QueryAsync<GraphDescription>(
+            @"SELECT FileName, FolderPath, Content, LastModified 
+                        FROM GraphIndex 
+                        WHERE FolderPath IN @folders", new { folders = allowFolders });
+    }
     
+    private async Task<IEnumerable<GraphDescription>?> SearchTable(string searchTerm)
+    {
+        string cleanSearch = Regex.Replace(searchTerm, @"[^a-zA-Z0-9\s""]", " ").Trim();
+        if (String.IsNullOrWhiteSpace(cleanSearch))
+            return null;
+            
+        StringBuilder inQuote = new StringBuilder();
+        StringBuilder outQuote = new StringBuilder();
+        const string pattern = @"""(.*?)""|([^""]+)";
+        foreach (Match match in Regex.Matches(cleanSearch, pattern))
+        {
+            if (match.Groups[1].Success)
+            {
+                string text = match.Groups[1].Value.Trim();
+                if (!String.IsNullOrWhiteSpace(text))
+                {
+                    if(inQuote.Length > 0)
+                        inQuote.Append($" OR \"{text}\"");
+                    else
+                        inQuote.Append($"\"{text}\"");
+                }
+            }
+            else if (match.Groups[2].Success)
+            {
+                string text = match.Groups[2].Value.Trim();
+                if (!String.IsNullOrWhiteSpace(text))
+                    outQuote.Append($" {text}");
+            }
+        }
+
+        var inQuoteStr = inQuote.ToString();
+        bool isHasInQuote = !String.IsNullOrEmpty(inQuoteStr);
+        var outQuoteStr = outQuote.ToString();
+        bool isHasOutQuote = !String.IsNullOrEmpty(outQuoteStr);
+        string formattedOutQuote = "";
+        if (isHasOutQuote)
+        {
+            var terms = outQuoteStr.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(term => $"\"{term}\"*");
+            formattedOutQuote = string.Join(" OR ", terms);
+        }
+            
+        string formattedQuery;
+        if (isHasInQuote && isHasOutQuote)
+            formattedQuery = $"{inQuoteStr} OR {formattedOutQuote}";
+        else if (isHasInQuote)
+            formattedQuery = inQuoteStr;
+        else if (isHasOutQuote)
+            formattedQuery = formattedOutQuote;
+        else
+            return null;
+            
+        await using var connection = new SqliteConnection(_dbConn);
+        var allowFolders = new List<string>();
+        foreach (var folderItem in FolderSelectorViewModel.SelectedItems)
+        {
+            if (folderItem.Path is not null)
+                allowFolders.Add(folderItem.Path);
+        }
+                
+        return  await connection.QueryAsync<GraphDescription>(
+            @"SELECT FileName, FolderPath, highlight(GraphIndex, 2, '<b>', '</b>') AS Content, LastModified 
+                        FROM GraphIndex 
+                        WHERE Content MATCH @query 
+                        AND FolderPath IN @folders 
+                        ORDER BY bm25(GraphIndex, 0, 0, 10.0) ASC 
+                        LIMIT 1000", new { query = formattedQuery, folders = allowFolders });
+    }
+
     [RelayCommand]
     public void PlaySound(GraphDescription item)
     {
@@ -482,6 +532,33 @@ public partial class SearchViewModel : ViewModelBase
                 if (clipboard != null)
                 {
                     var text = await File.ReadAllTextAsync(graphFile);
+                    
+                    if (IsGraphEdited)
+                    {
+                        var allNodes = MsRawProcessor.ParseMetaSoundsText(text);
+
+                        if (MergeOnPlayTriggers)
+                            allNodes = MsRawProcessor.MergeOnPlayNodesToLocalTrigger(allNodes, $"Play_{_triggerLocalVariableNameCounter}");
+                        
+                        if(MergeSameTimes)
+                            MsRawProcessor.MergeSameTimesToInputs(allNodes, _triggerLocalVariableNameCounter.ToString());
+                        
+                        if (MergeSameFloats)
+                            MsRawProcessor.MergeSameFloatsToInputs(allNodes, _triggerLocalVariableNameCounter.ToString());
+
+                        if (EncloseWithComment)
+                        {
+                            var descFile = Path.ChangeExtension(fileName, Constants.DescriptionExtension);
+                            using StreamReader reader = new StreamReader(descFile);
+                            string? comment = await reader.ReadLineAsync();
+                            if(!String.IsNullOrWhiteSpace(comment))
+                                MsRawProcessor.AddEncloseComment(allNodes, comment);
+                        }
+                        _triggerLocalVariableNameCounter = (_triggerLocalVariableNameCounter + 1) % 100;
+                        
+                        text = MsRawProcessor.SerializeToMetaSounds(allNodes);
+                    }
+                    
                     await clipboard.SetTextAsync(text);
                     return;
                 }

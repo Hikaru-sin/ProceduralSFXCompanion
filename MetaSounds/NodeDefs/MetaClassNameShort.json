@@ -1,0 +1,1742 @@
+{
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Multi Impact SFX Synth\",Variant=\"Stereo\"))": {
+    "shortName": "MultiImpactSFXStereo",
+    "fullName": "(Namespace=\"LBS\",Name=\"Multi Impact SFX Synth\",Variant=\"Stereo\")",
+    "comment": "Creating stereo multiple pure impact sounds (no noise).",
+    "size": [
+      3,
+      7
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact SFX Synth\",Variant=\"Stereo\"))": {
+    "shortName": "ImpactSFXStereo",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact SFX Synth\",Variant=\"Stereo\")",
+    "comment": "Creating a stereo pure impact sound (no noise).",
+    "size": [
+      2.5,
+      7
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Chirp Synth\",Variant=\"Mono\"))": {
+    "shortName": "ChirpSynth",
+    "fullName": "(Namespace=\"LBS\",Name=\"Chirp Synth\",Variant=\"Mono\")",
+    "comment": "Creating pure sine tone with a decay rate and chirp (pitch shifting) effect.",
+    "size": [
+      3,
+      4.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Chirp Synth Fast\",Variant=\"Mono\"))": {
+    "shortName": "ChirpSynthFast",
+    "fullName": "(Namespace=\"LBS\",Name=\"Chirp Synth Fast\",Variant=\"Mono\")",
+    "comment": "A fast but has slightly lower quality chirp synthesizer. Creating pure sine tone with a decay rate and chirp (pitch shifting) effect.",
+    "size": [
+      3,
+      4.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Merger\",Variant=\"ModalMerger\"))": {
+    "shortName": "ImpactModalMerger",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Merger\",Variant=\"ModalMerger\")",
+    "comment": "Merge two modal objects (params) into one modal object.",
+    "size": [
+      2.5,
+      3.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal High Pass\",Variant=\"ModalHighPass\"))": {
+    "shortName": "ImpactModalHighPass",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal High Pass\",Variant=\"ModalHighPass\")",
+    "comment": "Change the amplitudes of modal params with frequencies lower than the cut off frequency.",
+    "size": [
+      2.5,
+      2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Band-Pass/Stop\",Variant=\"ModalBandPass\"))": {
+    "shortName": "ImpactModalBandFilter",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Band-Pass/Stop\",Variant=\"ModalBandPass\")",
+    "comment": "Change the amplitudes of modal params with frequencies higher than fcut1 and lower than fcut2, or reverse.",
+    "size": [
+      2.5,
+      2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Low Pass\",Variant=\"ModalLowPass\"))": {
+    "shortName": "ImpactModalLowPass",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Low Pass\",Variant=\"ModalLowPass\")",
+    "comment": "Change the amplitudes of modal params with frequencies higher than the cut off frequency.",
+    "size": [
+      2.5,
+      2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Decay Filter\",Variant=\"ModalDecayFilter\"))": {
+    "shortName": "ImpactModalDecayFilter",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Decay Filter\",Variant=\"ModalDecayFilter\")",
+    "comment": "Remove modal params with decay not meeting the input conditions.",
+    "size": [
+      2.5,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Randomizer Interp\",Variant=\"ModalRandomizer\"))": {
+    "shortName": "ImpactModalRandomizerInterp",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Randomizer Interp\",Variant=\"ModalRandomizer\")",
+    "comment": "Randomize the data inside modal params with by interpolating between values.",
+    "size": [
+      2.5,
+      3
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Vehicle Engine Synth\",Variant=\"Mono\"),Version=(Minor=1))": {
+    "shortName": "VehicleEngineSynth",
+    "fullName": "(Namespace=\"LBS\",Name=\"Vehicle Engine Synth\",Variant=\"Mono\")",
+    "comment": "Creating pure harmonics of vehicles based on their RPM and properties.",
+    "size": [
+      2.5,
+      7.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Modal Early Reverb\"),Version=(Minor=1))": {
+    "shortName": "ModalEarlyReverb",
+    "fullName": "(Namespace=\"LBS\",Name=\"Modal Early Reverb\")",
+    "comment": "An early reverb implementation with noticable metallic artifacts.",
+    "size": [
+      2.5,
+      3.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Decay Clamp\",Variant=\"ModalDecayClamp\"))": {
+    "shortName": "ImpactModalDecayClamp",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Decay Clamp\",Variant=\"ModalDecayClamp\")",
+    "comment": "Clamp the decay rate of modal params.",
+    "size": [
+      2.5,
+      2.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"ConversionFloatToTime\"))": {
+    "shortName": "FloatToTime",
+    "fullName": "(Namespace=\"UE\",Name=\"ConversionFloatToTime\")",
+    "comment": "Convert floating point value to time value.",
+    "size": [
+      1.25,
+      0.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Convert\",Name=\"Int32\",Variant=\"Float\"))": {
+    "shortName": "IntToFloat",
+    "fullName": "(Namespace=\"Convert\",Name=\"Int32\",Variant=\"Float\")",
+    "comment": "Convert integer to floating point.",
+    "size": [
+      1.25,
+      0.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Convert\",Name=\"Float\",Variant=\"Int32\"))": {
+    "shortName": "FloatToInt",
+    "fullName": "(Namespace=\"Convert\",Name=\"Float\",Variant=\"Int32\")",
+    "comment": "Convert floating point to integer.",
+    "size": [
+      1.25,
+      0.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"InterpTo\",Variant=\"Audio\"))": {
+    "shortName": "InterpTo",
+    "fullName": "(Namespace=\"UE\",Name=\"InterpTo\",Variant=\"Audio\")",
+    "comment": "interpolating between old and new value over the input duration.",
+    "size": [
+      2,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"RandomFloat\"),Version=(Minor=1))": {
+    "shortName": "RandomFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"RandomFloat\")",
+    "comment": "Get a random float value between Min and Max.",
+    "size": [
+      1.7,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"RandomInt32\"),Version=(Minor=1))": {
+    "shortName": "RandomInt",
+    "fullName": "(Namespace=\"UE\",Name=\"RandomInt32\")",
+    "comment": "Get a random integer value between Min and Max.",
+    "size": [
+      1.7,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"RandomTime\"),Version=(Minor=1))": {
+    "shortName": "RandomTime",
+    "fullName": "(Namespace=\"UE\",Name=\"RandomTime\")",
+    "comment": "Get a random time value between Min and Max.",
+    "size": [
+      1.7,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Delay\",Name=\"Delay\",Variant=\"AudioBufferDelayTime\"),Version=(Minor=1))": {
+    "shortName": "DelayAudioBuffer",
+    "fullName": "(Namespace=\"Delay\",Name=\"Delay\",Variant=\"AudioBufferDelayTime\")",
+    "comment": "A delay audio node with buffer.",
+    "size": [
+      2,
+      2.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Delay\",Variant=\"Audio\"),Version=(Minor=1))": {
+    "shortName": "DelayAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Delay\",Variant=\"Audio\")",
+    "comment": "A delay audio node.",
+    "size": [
+      2,
+      2.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Diffuser\",Variant=\"Audio\"))": {
+    "shortName": "Diffuser",
+    "fullName": "(Namespace=\"UE\",Name=\"Diffuser\",Variant=\"Audio\")",
+    "comment": "Creating diffuse effect from an input audio.",
+    "size": [
+      2.25,
+      1.1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AD Envelope\",Name=\"AD Envelope\",Variant=\"Audio\"))": {
+    "shortName": "ADAudio",
+    "fullName": "(Namespace=\"AD Envelope\",Name=\"AD Envelope\",Variant=\"Audio\")",
+    "comment": "An attack (fade in) and decay (fade out) envelope node with the output data type is audio.",
+    "size": [
+      2.25,
+      2.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AD Envelope\",Name=\"AD Envelope\",Variant=\"Float\"))": {
+    "shortName": "ADFloat",
+    "fullName": "(Namespace=\"AD Envelope\",Name=\"AD Envelope\",Variant=\"Float\")",
+    "comment": "An attack (fade in) and decay (fade out) envelope node with the output data type is floating point.",
+    "size": [
+      2.25,
+      2.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"ADSR Envelope\",Name=\"ADSR Envelope\",Variant=\"Audio\"))": {
+    "shortName": "ADSRAudio",
+    "fullName": "(Namespace=\"ADSR Envelope\",Name=\"ADSR Envelope\",Variant=\"Audio\")",
+    "comment": "An attack (fade in), sustain (duration), and decay (fade out) envelope node with the output data type is audio.",
+    "size": [
+      2.75,
+      3
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"ADSR Envelope\",Name=\"ADSR Envelope\",Variant=\"Float\"))": {
+    "shortName": "ADSRFloat",
+    "fullName": "(Namespace=\"ADSR Envelope\",Name=\"ADSR Envelope\",Variant=\"Float\")",
+    "comment": "An attack (fade in), sustain (duration), and decay (fade out) envelope node with the output data type is floating point.",
+    "size": [
+      2.75,
+      3
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Biquad Filter\",Variant=\"Audio\"))": {
+    "shortName": "BiquadFilter",
+    "fullName": "(Namespace=\"UE\",Name=\"Biquad Filter\",Variant=\"Audio\")",
+    "comment": "An audio filter using the biquad structre supporint: low pass, high pass, band pass, low shelves, high shelves, low shelves",
+    "size": [
+      2.5,
+      3
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"One-Pole High Pass Filter\",Variant=\"Audio\"))": {
+    "shortName": "OnePoleHighPassFilter",
+    "fullName": "(Namespace=\"UE\",Name=\"One-Pole High Pass Filter\",Variant=\"Audio\")",
+    "comment": "A one pole audio high pass filter.",
+    "size": [
+      2,
+      1.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"One-Pole Low Pass Filter\",Variant=\"Audio\"))": {
+    "shortName": "OnePoleLowPassFilter",
+    "fullName": "(Namespace=\"UE\",Name=\"One-Pole Low Pass Filter\",Variant=\"Audio\")",
+    "comment": "A one pole audio low pass filter.",
+    "size": [
+      2,
+      1.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Loudness Adjust\"))": {
+    "shortName": "ImpactModalLoudnessAdjust",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Loudness Adjust\")",
+    "comment": "Keep the loudness of the output constant regardless of the input modal params.",
+    "size": [
+      2.5,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Partial Modifier\"))": {
+    "shortName": "ImpactModalPartialModifier",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Partial Modifier\")",
+    "comment": "Partially modifying the data inside the modal params.",
+    "size": [
+      2.4,
+      2.6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Sub Range\"))": {
+    "shortName": "ImpactModalSubRange",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Sub Range\")",
+    "comment": "Create a sub modal object from the modal params.",
+    "size": [
+      2.25,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Lfo Frequency Noise\",Variant=\"Audio\"))": {
+    "shortName": "LfoFrequencyNoiseAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Lfo Frequency Noise\",Variant=\"Audio\")",
+    "comment": "Low frequency noise generator with the output data type is audio.",
+    "size": [
+      3,
+      3
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Perlin Noise (audio)\",Variant=\"Audio\"))": {
+    "shortName": "PerlinNoiseAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Perlin Noise (audio)\",Variant=\"Audio\")",
+    "comment": "Perlin noise generator with the output data type is audio.",
+    "size": [
+      2,
+      1.6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Perlin Noise (float)\",Variant=\"Audio\"))": {
+    "shortName": "PerlinNoiseFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Perlin Noise (float)\",Variant=\"Audio\")",
+    "comment": "Perlin noise generator with the output data type is floating point.",
+    "size": [
+      2,
+      1.6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Burble Sound Gen\"))": {
+    "shortName": "BurbleSound",
+    "fullName": "(Namespace=\"LBS\",Name=\"Burble Sound Gen\")",
+    "comment": "Creating liquid (blood, water, rain, etc.) or scattering effects.",
+    "size": [
+      2.25,
+      7
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"LFO\",Variant=\"Audio\"))": {
+    "shortName": "LFOAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"LFO\",Variant=\"Audio\")",
+    "comment": "A low frequency oscillator with the output data type is audio.",
+    "size": [
+      2.5,
+      2.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Noise\",Variant=\"Audio\"))": {
+    "shortName": "NoiseAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Noise\",Variant=\"Audio\")",
+    "comment": "A white noise node with an audio output.",
+    "size": [
+      2.5,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Saw\",Variant=\"Audio\"))": {
+    "shortName": "SawAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Saw\",Variant=\"Audio\")",
+    "comment": "A saw wave geneator.",
+    "size": [
+      2.5,
+      2.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Sine\",Variant=\"Audio\"),Version=(Minor=1))": {
+    "shortName": "SineAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Sine\",Variant=\"Audio\")",
+    "comment": "A sine wave generator.",
+    "size": [
+      2.5,
+      2.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Square\",Variant=\"Audio\"))": {
+    "shortName": "SquareAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Square\",Variant=\"Audio\")",
+    "comment": "A square wave generator.",
+    "size": [
+      2.5,
+      2.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Triangle\",Variant=\"Audio\"))": {
+    "shortName": "TriangleAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Triangle\",Variant=\"Audio\")",
+    "comment": "A triangle wave generator.",
+    "size": [
+      2.5,
+      2.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AbsoluteValue\",Name=\"Abs\",Variant=\"Audio\"))": {
+    "shortName": "AbsAudio",
+    "fullName": "(Namespace=\"AbsoluteValue\",Name=\"Abs\",Variant=\"Audio\")",
+    "comment": "An absolute math node for audio.",
+    "size": [
+      1.25,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AbsoluteValue\",Name=\"Abs\",Variant=\"Float\"))": {
+    "shortName": "AbsFloat",
+    "fullName": "(Namespace=\"AbsoluteValue\",Name=\"Abs\",Variant=\"Float\")",
+    "comment": "An absolute math node for floating point.",
+    "size": [
+      1.5,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AbsoluteValue\",Name=\"Abs\",Variant=\"Int32\"))": {
+    "shortName": "AbsInt",
+    "fullName": "(Namespace=\"AbsoluteValue\",Name=\"Abs\",Variant=\"Int32\")",
+    "comment": "An absolute math node for integer.",
+    "size": [
+      1.5,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AbsoluteValue\",Name=\"Abs\",Variant=\"Time\"))": {
+    "shortName": "AbsTime",
+    "fullName": "(Namespace=\"AbsoluteValue\",Name=\"Abs\",Variant=\"Time\")",
+    "comment": "An absolute math node for time.",
+    "size": [
+      1.5,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Add\",Variant=\"Audio\"),Version=(Minor=1))": {
+    "shortName": "AddAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Add\",Variant=\"Audio\")",
+    "comment": "An add math node for audio.",
+    "size": [
+      1,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Add\",Variant=\"Audio by Float\"),Version=(Minor=1))": {
+    "shortName": "AddAudioByFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Add\",Variant=\"Audio by Float\")",
+    "comment": "An add math node for audio and float.",
+    "size": [
+      1.25,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Add\",Variant=\"Float\"),Version=(Minor=1))": {
+    "shortName": "AddFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Add\",Variant=\"Float\")",
+    "comment": "An add math node for floating point.",
+    "size": [
+      1.25,
+      0.6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Add\",Variant=\"Int32\"),Version=(Minor=1))": {
+    "shortName": "AddInt32",
+    "fullName": "(Namespace=\"UE\",Name=\"Add\",Variant=\"Int32\")",
+    "comment": "An add math node for integer.",
+    "size": [
+      1.25,
+      0.6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Add\",Variant=\"Time\"),Version=(Minor=1))": {
+    "shortName": "AddTime",
+    "fullName": "(Namespace=\"UE\",Name=\"Add\",Variant=\"Time\")",
+    "comment": "An add math node for time.",
+    "size": [
+      1.25,
+      0.6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Clamp\",Name=\"Clamp\",Variant=\"Float\"))": {
+    "shortName": "ClampFloat",
+    "fullName": "(Namespace=\"Clamp\",Name=\"Clamp\",Variant=\"Float\")",
+    "comment": "A clamp math node for floating point.",
+    "size": [
+      1.5,
+      1.1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Clamp\",Name=\"Clamp\",Variant=\"Int32\"))": {
+    "shortName": "ClampInt",
+    "fullName": "(Namespace=\"Clamp\",Name=\"Clamp\",Variant=\"Int32\")",
+    "comment": "A clamp math node for int.",
+    "size": [
+      1.5,
+      1.1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Divide\",Variant=\"Float\"),Version=(Minor=1))": {
+    "shortName": "DivideFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Divide\",Variant=\"Float\")",
+    "comment": "A divide math node for floating point.",
+    "size": [
+      1.2,
+      0.6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Divide\",Variant=\"Int32\"),Version=(Minor=1))": {
+    "shortName": "DivideInt",
+    "fullName": "(Namespace=\"UE\",Name=\"Divide\",Variant=\"Int32\")",
+    "comment": "A divide math node for integer.",
+    "size": [
+      1.2,
+      0.6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Divide\",Variant=\"Time by Float\"),Version=(Minor=1))": {
+    "shortName": "DivideTimeByFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Divide\",Variant=\"Time by Float\")",
+    "comment": "A divide math node for time and floating point.",
+    "size": [
+      1.2,
+      0.6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Randomizer\"))": {
+    "shortName": "ImpactModalRandomizer",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Randomizer\")",
+    "comment": "A modal data randomizer node without interpolating.",
+    "size": [
+      2.5,
+      2.7
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Logarithm\",Variant=\"Float\"),Version=(Minor=1))": {
+    "shortName": "LogarithmFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Logarithm\",Variant=\"Float\")",
+    "comment": "A logarith math node for floating point.",
+    "size": [
+      1.2,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"MapRange\",Name=\"MapRange\",Variant=\"Float\"))": {
+    "shortName": "MapRangeFloat",
+    "fullName": "(Namespace=\"MapRange\",Name=\"MapRange\",Variant=\"Float\")",
+    "comment": "A map range math node for floating A B intput range to output A B range.",
+    "size": [
+      2,
+      2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"MapRange\",Name=\"MapRange\",Variant=\"Int32\"))": {
+    "shortName": "MapRangeInt",
+    "fullName": "(Namespace=\"MapRange\",Name=\"MapRange\",Variant=\"Int32\")",
+    "comment": "A map range math node for converting integer A B intput range to output A B range.",
+    "size": [
+      2,
+      2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Max\",Name=\"Max\",Variant=\"Int32\"))": {
+    "shortName": "MaxInt",
+    "fullName": "(Namespace=\"Max\",Name=\"Max\",Variant=\"Int32\")",
+    "comment": "Output the maximum integer.",
+    "size": [
+      1.25,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Min\",Name=\"Min\",Variant=\"Float\"))": {
+    "shortName": "MinFloat",
+    "fullName": "(Namespace=\"Min\",Name=\"Min\",Variant=\"Float\")",
+    "comment": "Output the minimum float.",
+    "size": [
+      1.25,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Min\",Name=\"Min\",Variant=\"Int32\"))": {
+    "shortName": "MinInt",
+    "fullName": "(Namespace=\"Min\",Name=\"Min\",Variant=\"Int32\")",
+    "comment": "Output the mininum integer.",
+    "size": [
+      1.25,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Modulo\",Variant=\"Int32\"),Version=(Minor=1))": {
+    "shortName": "ModuloInt",
+    "fullName": "(Namespace=\"UE\",Name=\"Modulo\",Variant=\"Int32\")",
+    "comment": "Modulo math node for integer.",
+    "size": [
+      1.1,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Multiply\",Variant=\"Audio by Float\"),Version=(Minor=1))": {
+    "shortName": "MultiplyAudioByFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Multiply\",Variant=\"Audio by Float\")",
+    "comment": "Multiplying audio to a floating point.",
+    "size": [
+      1.2,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Multiply\",Variant=\"Audio\"),Version=(Minor=1))": {
+    "shortName": "MultiplyAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Multiply\",Variant=\"Audio\")",
+    "comment": "Multiplying two audio inputs.",
+    "size": [
+      1,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Multiply\",Variant=\"Float\"),Version=(Minor=1))": {
+    "shortName": "MultiplyFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Multiply\",Variant=\"Float\")",
+    "comment": "Multiplying two floats.",
+    "size": [
+      1,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Multiply\",Variant=\"Int32\"),Version=(Minor=1))": {
+    "shortName": "MultiplyInt",
+    "fullName": "(Namespace=\"UE\",Name=\"Multiply\",Variant=\"Int32\")",
+    "comment": "Multiplying two integer.",
+    "size": [
+      1,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Multiply\",Variant=\"Time by Float\"),Version=(Minor=1))": {
+    "shortName": "MultiplyTimeByFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Multiply\",Variant=\"Time by Float\")",
+    "comment": "Multiplying time and floating point.",
+    "size": [
+      1,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Power\",Variant=\"Float\"),Version=(Minor=1))": {
+    "shortName": "PowerFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Power\",Variant=\"Float\")",
+    "comment": "Power math node for floating point.",
+    "size": [
+      1.2,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Subtract\",Variant=\"Audio\"),Version=(Minor=1))": {
+    "shortName": "SubtractAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Subtract\",Variant=\"Audio\")",
+    "comment": "Subtract two audio input.",
+    "size": [
+      1,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Subtract\",Variant=\"Float\"),Version=(Minor=1))": {
+    "shortName": "SubtractFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Subtract\",Variant=\"Float\")",
+    "comment": "Subtract two floating points.",
+    "size": [
+      1.1,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Subtract\",Variant=\"Int32\"),Version=(Minor=1))": {
+    "shortName": "SubtractInt",
+    "fullName": "(Namespace=\"UE\",Name=\"Subtract\",Variant=\"Int32\")",
+    "comment": "Substract two integer.",
+    "size": [
+      1.1,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Subtract\",Variant=\"Time\"),Version=(Minor=1))": {
+    "shortName": "SubtractTime",
+    "fullName": "(Namespace=\"UE\",Name=\"Subtract\",Variant=\"Time\")",
+    "comment": "Substract two time value.",
+    "size": [
+      1.1,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Freq Spread Modifier\",Variant=\"ModalMerger\"))": {
+    "shortName": "ImpactModalFreqSpreadModifier",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Freq Spread Modifier\",Variant=\"ModalMerger\")",
+    "comment": "Change the frequency distribution of modal params.",
+    "size": [
+      2.5,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Sort\"))": {
+    "shortName": "ImpactModalSort",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Sort\")",
+    "comment": "Sort the data of modal params based on amplitude, decay, or frequency.",
+    "size": [
+      3,
+      2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Mono, 2)\"))": {
+    "shortName": "AudioMixerMono2",
+    "fullName": "(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Mono, 2)\")",
+    "comment": "Mix 2 input audio.",
+    "size": [
+      1.8,
+      1.4
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Mono, 3)\"))": {
+    "shortName": "AudioMixerMono3",
+    "fullName": "(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Mono, 3)\")",
+    "comment": "Mix 3 input audio.",
+    "size": [
+      1.8,
+      2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Mono, 4)\"))": {
+    "shortName": "AudioMixerMono4",
+    "fullName": "(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Mono, 4)\")",
+    "comment": "Mix 4 input audio.",
+    "size": [
+      1.8,
+      2.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Stereo, 2)\"))": {
+    "shortName": "AudioMixerStereo2",
+    "fullName": "(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Stereo, 2)\")",
+    "comment": "Mix 2 input audio, stereo version.",
+    "size": [
+      1.8,
+      1.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Stereo, 3)\"))": {
+    "shortName": "AudioMixerStereo3",
+    "fullName": "(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Stereo, 3)\")",
+    "comment": "Mix 3 input audio, stereo version.",
+    "size": [
+      1.8,
+      2.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Stereo, 4)\"))": {
+    "shortName": "AudioMixerStereo4",
+    "fullName": "(Namespace=\"AudioMixer\",Name=\"Audio Mixer (Stereo, 4)\")",
+    "comment": "Mix 4 input audio, stereo version.",
+    "size": [
+      1.8,
+      3.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerAccumulator\",Name=\"Trigger Accumulate (2)\"))": {
+    "shortName": "TriggerAccumulate2",
+    "fullName": "(Namespace=\"TriggerAccumulator\",Name=\"Trigger Accumulate (2)\")",
+    "comment": "Trigger the output when all inputs are triggered at least one.",
+    "size": [
+      1.6,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerAccumulator\",Name=\"Trigger Accumulate (3)\"))": {
+    "shortName": "TriggerAccumulate3",
+    "fullName": "(Namespace=\"TriggerAccumulator\",Name=\"Trigger Accumulate (3)\")",
+    "comment": "Trigger the output when all inputs are triggered at least one.",
+    "size": [
+      1.6,
+      1.2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerAccumulator\",Name=\"Trigger Accumulate (4)\"))": {
+    "shortName": "TriggerAccumulate4",
+    "fullName": "(Namespace=\"TriggerAccumulator\",Name=\"Trigger Accumulate (4)\")",
+    "comment": "Trigger the output when all inputs are triggered at least one.",
+    "size": [
+      1.6,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerAny\",Name=\"Trigger Any (2)\"))": {
+    "shortName": "TriggerAny2",
+    "fullName": "(Namespace=\"TriggerAny\",Name=\"Trigger Any (2)\")",
+    "comment": "Trigger the output when at least one input is triggered.",
+    "size": [
+      1.2,
+      0.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerAny\",Name=\"Trigger Any (3)\"))": {
+    "shortName": "TriggerAny3",
+    "fullName": "(Namespace=\"TriggerAny\",Name=\"Trigger Any (3)\")",
+    "comment": "Trigger the output when at least one input is triggered.",
+    "size": [
+      1.2,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerAny\",Name=\"Trigger Any (4)\"))": {
+    "shortName": "TriggerAny4",
+    "fullName": "(Namespace=\"TriggerAny\",Name=\"Trigger Any (4)\")",
+    "comment": "Trigger the output when at least one input is triggered.",
+    "size": [
+      1.2,
+      1.2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Filter\"))": {
+    "shortName": "TriggerChance",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Filter\")",
+    "comment": "Randomly output a trigger based on the chance.",
+    "size": [
+      1.8,
+      1.2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerCompare\",Name=\"Clamp\",Variant=\"Bool\"))": {
+    "shortName": "TriggerCompareBool",
+    "fullName": "(Namespace=\"TriggerCompare\",Name=\"Clamp\",Variant=\"Bool\")",
+    "comment": "Trigger the output by comparing the inputs.",
+    "size": [
+      2.5,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerCompare\",Name=\"Clamp\",Variant=\"Float\"))": {
+    "shortName": "TriggerCompareFloat",
+    "fullName": "(Namespace=\"TriggerCompare\",Name=\"Clamp\",Variant=\"Float\")",
+    "comment": "Trigger the output by comparing the inputs.",
+    "size": [
+      2.5,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerCompare\",Name=\"Clamp\",Variant=\"Int32\"))": {
+    "shortName": "TriggerCompareInt",
+    "fullName": "(Namespace=\"TriggerCompare\",Name=\"Clamp\",Variant=\"Int32\")",
+    "comment": "Trigger the output by comparing the inputs.",
+    "size": [
+      2.5,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Control\"))": {
+    "shortName": "TriggerControl",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Control\")",
+    "comment": "Allow the trigger flowing from input to ouput if Open is triggered, otherwise close.",
+    "size": [
+      2,
+      1.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Counter\"))": {
+    "shortName": "TriggerCounter",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Counter\")",
+    "comment": "Count the number of receives trigger.",
+    "size": [
+      2,
+      1.6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Delay\"))": {
+    "shortName": "TriggerDelay",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Delay\")",
+    "comment": "Delay the input trigger before passing it to the output.",
+    "size": [
+      1.8,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger On Nan\"))": {
+    "shortName": "TriggerOnNan",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger On Nan\")",
+    "comment": "Trigger on Nan value.",
+    "size": [
+      2,
+      1.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"TriggerOnThreshold\",Variant=\"Audio\"))": {
+    "shortName": "TriggerOnThresholdAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"TriggerOnThreshold\",Variant=\"Audio\")",
+    "comment": "Trigger when the input audio lower (or higher) than the threshold.",
+    "size": [
+      2.5,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"TriggerOnThreshold\",Variant=\"Float\"))": {
+    "shortName": "TriggerOnThresholdFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"TriggerOnThreshold\",Variant=\"Float\")",
+    "comment": "Trigger when the input float lower (or higher) than the threshold.",
+    "size": [
+      2.5,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"TriggerOnThreshold\",Variant=\"Int32\"))": {
+    "shortName": "TriggerOnThresholdInt",
+    "fullName": "(Namespace=\"UE\",Name=\"TriggerOnThreshold\",Variant=\"Int32\")",
+    "comment": "Trigger when the input int lower (or higher) than the threshold.",
+    "size": [
+      2.5,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger On Value Change\",Variant=\"Bool\"))": {
+    "shortName": "TriggerOnValueChangeBool",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger On Value Change\",Variant=\"Bool\")",
+    "comment": "Trigger when the input value is changed.",
+    "size": [
+      1.8,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger On Value Change\",Variant=\"Float\"))": {
+    "shortName": "TriggerOnValueChangeFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger On Value Change\",Variant=\"Float\")",
+    "comment": "Trigger when the input value is changed.",
+    "size": [
+      1.8,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger On Value Change\",Variant=\"Int32\"))": {
+    "shortName": "TriggerOnValueChangeInt",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger On Value Change\",Variant=\"Int32\")",
+    "comment": "Trigger when the input value is changed.",
+    "size": [
+      1.8,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Once\"))": {
+    "shortName": "TriggerOnce",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Once\")",
+    "comment": "Trigger only once time.",
+    "size": [
+      2,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Pipe\"))": {
+    "shortName": "TriggerPipe",
+    "fullName": "(Namespace=\"UE\",Name=\"Pipe\")",
+    "comment": "Piep all the input triggers.",
+    "size": [
+      1.8,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"TriggerRepeat\"))": {
+    "shortName": "TriggerRepeat",
+    "fullName": "(Namespace=\"UE\",Name=\"TriggerRepeat\")",
+    "comment": "Automatically repeat the trigger based on the Num Repeats input. If Num Repeats <= 0, repeat infinitely untill receiving a stop trigger.",
+    "size": [
+      2,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"TriggerRepeatRandom\"))": {
+    "shortName": "TriggerRepeatRandom",
+    "fullName": "(Namespace=\"UE\",Name=\"TriggerRepeatRandom\")",
+    "comment": "Automatically repeat the trigger based on the Num Repeats input with a random interval between Period Min and Period Max. If Num Repeats <= 0, repeat infinitely untill receiving a stop trigger.",
+    "size": [
+      2,
+      2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Audio, 2)\",Variant=\"Audio\"))": {
+    "shortName": "TriggerRouteAudio2",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Audio, 2)\",Variant=\"Audio\")",
+    "comment": "Route the inputs to the output based on the trigger inputs.",
+    "size": [
+      1.4,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Audio, 3)\",Variant=\"Audio\"))": {
+    "shortName": "TriggerRouteAudio3",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Audio, 3)\",Variant=\"Audio\")",
+    "comment": "Route the inputs to the output based on the trigger inputs.",
+    "size": [
+      1.4,
+      1.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Audio, 4)\",Variant=\"Audio\"))": {
+    "shortName": "TriggerRouteAudio4",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Audio, 4)\",Variant=\"Audio\")",
+    "comment": "Route the inputs to the output based on the trigger inputs.",
+    "size": [
+      1.4,
+      2.2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Bool, 2)\",Variant=\"Bool\"))": {
+    "shortName": "TriggerRouteBool2",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Bool, 2)\",Variant=\"Bool\")",
+    "comment": "Route the inputs to the output based on the trigger inputs.",
+    "size": [
+      1.4,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Float, 2)\",Variant=\"Float\"))": {
+    "shortName": "TriggerRouteFloat2",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Float, 2)\",Variant=\"Float\")",
+    "comment": "Route the inputs to the output based on the trigger inputs.",
+    "size": [
+      1.4,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Float, 3)\",Variant=\"Float\"))": {
+    "shortName": "TriggerRouteFloat3",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Float, 3)\",Variant=\"Float\")",
+    "comment": "Route the inputs to the output based on the trigger inputs.",
+    "size": [
+      1.4,
+      1.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Float, 4)\",Variant=\"Float\"))": {
+    "shortName": "TriggerRouteFloat4",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Float, 4)\",Variant=\"Float\")",
+    "comment": "Route the inputs to the output based on the trigger inputs.",
+    "size": [
+      1.4,
+      2.2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Int32, 2)\",Variant=\"Int32\"))": {
+    "shortName": "TriggerRouteInt2",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Int32, 2)\",Variant=\"Int32\")",
+    "comment": "Route the inputs to the output based on the trigger inputs.",
+    "size": [
+      1.4,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Int32, 3)\",Variant=\"Int32\"))": {
+    "shortName": "TriggerRouteInt3",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Int32, 3)\",Variant=\"Int32\")",
+    "comment": "Route the inputs to the output based on the trigger inputs.",
+    "size": [
+      1.4,
+      1.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Int32, 4)\",Variant=\"Int32\"))": {
+    "shortName": "TriggerRouteInt4",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Int32, 4)\",Variant=\"Int32\")",
+    "comment": "Route the inputs to the output based on the trigger inputs.",
+    "size": [
+      1.4,
+      2.2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Select (2)\"))": {
+    "shortName": "TriggerSelect2",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Select (2)\")",
+    "comment": "Select the output to trigger based on the input index.",
+    "size": [
+      1.4,
+      0.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Select (3)\"))": {
+    "shortName": "TriggerSelect3",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Select (3)\")",
+    "comment": "Select the output to trigger based on the input index.",
+    "size": [
+      1.4,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Select (4)\"))": {
+    "shortName": "TriggerSelect4",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Select (4)\")",
+    "comment": "Select the output to trigger based on the input index.",
+    "size": [
+      1.4,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Sequence (2)\"))": {
+    "shortName": "TriggerSequence2",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Sequence (2)\")",
+    "comment": "Sequentially pass the input to each of the output.",
+    "size": [
+      1.25,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Sequence (3)\"))": {
+    "shortName": "TriggerSequence3",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Sequence (3)\")",
+    "comment": "Sequentially pass the input to each of the output.",
+    "size": [
+      1.25,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Sequence (4)\"))": {
+    "shortName": "TriggerSequence4",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Sequence (4)\")",
+    "comment": "Sequentially pass the input to each of the output.",
+    "size": [
+      1.25,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Trigger Toggle\"))": {
+    "shortName": "TriggerToggle",
+    "fullName": "(Namespace=\"UE\",Name=\"Trigger Toggle\")",
+    "comment": "Toggle a bool value on or off.",
+    "size": [
+      1.25,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Value\",Name=\"Value\",Variant=\"Bool\"))": {
+    "shortName": "ValueBool",
+    "fullName": "(Namespace=\"Value\",Name=\"Value\",Variant=\"Bool\")",
+    "comment": "Set a bool value.",
+    "size": [
+      2,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Value\",Name=\"Value\",Variant=\"Float\"))": {
+    "shortName": "ValueFloat",
+    "fullName": "(Namespace=\"Value\",Name=\"Value\",Variant=\"Float\")",
+    "comment": "Set a float value.",
+    "size": [
+      2.2,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Value\",Name=\"Value\",Variant=\"Int32\"))": {
+    "shortName": "ValueInt",
+    "fullName": "(Namespace=\"Value\",Name=\"Value\",Variant=\"Int32\")",
+    "comment": "Set an integer value.",
+    "size": [
+      2.2,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact External Force Synth\",Variant=\"Mono\"))": {
+    "shortName": "ImpactExternalForceMono",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact External Force Synth\",Variant=\"Mono\")",
+    "comment": "An impact synthesizer node for modal params. This node requires an external force (noise), which is usually a white noise node multiplied with an ADAudio envelope node.",
+    "size": [
+      2.25,
+      3.2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Force Synth\",Variant=\"Stereo\"))": {
+    "shortName": "ImpactForceStereo",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Force Synth\",Variant=\"Stereo\")",
+    "comment": "A stereo impact synthesizer node for modal params. This node has it own built in force (noise) model with spawn rate and spawn chance. At least one impact is always generated even if spawn rate and spawn chance are set to zero.",
+    "size": [
+      3,
+      7
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact External Force Synth\",Variant=\"Stereo\"))": {
+    "shortName": "ImpactExternalForceStereo",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact External Force Synth\",Variant=\"Stereo\")",
+    "comment": "A stereo impact synthesizer node for modal params. This node requires an external force (noise), which is usually a white noise node multiplied with an ADAudio envelope node.",
+    "size": [
+      2.25,
+      3.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Velocity\",Variant=\"Velocity\"))": {
+    "shortName": "VelocityFloat",
+    "fullName": "(Namespace=\"LBS\",Name=\"Velocity\",Variant=\"Velocity\")",
+    "comment": "A velocity calculation node.",
+    "size": [
+      2.6,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact SFX Synth\",Variant=\"Mono\"))": {
+    "shortName": "ImpactSFXMono",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact SFX Synth\",Variant=\"Mono\")",
+    "comment": "A pure impact synthesizer without noise for modal params.",
+    "size": [
+      2.5,
+      7
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Multi Impact SFX Synth\",Variant=\"Mono\"))": {
+    "shortName": "MultiImpactSFXMono",
+    "fullName": "(Namespace=\"LBS\",Name=\"Multi Impact SFX Synth\",Variant=\"Mono\")",
+    "comment": "A pure multiple impacts synthesizer without noise for modal params.",
+    "size": [
+      3,
+      7.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Modal Frequency Shift\"))": {
+    "shortName": "ModalFrequencyShift",
+    "fullName": "(Namespace=\"LBS\",Name=\"Modal Frequency Shift\")",
+    "comment": "Shift the frequency of modal params by adding instead of multiplying like in other synthesizer nodes.",
+    "size": [
+      2.25,
+      2.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Modal Multiplier Synth\"))": {
+    "shortName": "ModalMultiplierSynth",
+    "fullName": "(Namespace=\"LBS\",Name=\"Modal Multiplier Synth\")",
+    "comment": "Synthesize and multiply each frequency of modal params together instead of adding like in other impact synthesizers.",
+    "size": [
+      2.25,
+      2.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Simple Force From Curve Gen\",Variant=\"Mono\"))": {
+    "shortName": "SimpleForceFromCurve",
+    "fullName": "(Namespace=\"LBS\",Name=\"Simple Force From Curve Gen\",Variant=\"Mono\")",
+    "comment": "Create a force envelope from an input rich curve.",
+    "size": [
+      2.25,
+      2.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Simple Modal Freq Synth\",Variant=\"Mono\"))": {
+    "shortName": "SimpleModalFreqSynth",
+    "fullName": "(Namespace=\"LBS\",Name=\"Simple Modal Freq Synth\",Variant=\"Mono\")",
+    "comment": "Synthesize pure sine signals from the modal params.",
+    "size": [
+      2.2,
+      1.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Two States Force Gen\",Variant=\"Mono\"))": {
+    "shortName": "TwoStatesForceGen",
+    "fullName": "(Namespace=\"LBS\",Name=\"Two States Force Gen\",Variant=\"Mono\")",
+    "comment": "Combine both input curves to generate one force envelope.",
+    "size": [
+      3,
+      5.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Reroute\"),TemplateParams=((InputsToConnect=(\"Int32\"),OutputsToConnect=(\"Int32\"))))": {
+    "shortName": "RerouteInt",
+    "fullName": "(Namespace=\"UE\",Name=\"Reroute\")",
+    "comment": "A reroute node for integer values connections.",
+    "size": [
+      0.1,
+      0.1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Reroute\"),TemplateParams=((InputsToConnect=(\"ModalObj\"),OutputsToConnect=(\"ModalObj\"))))": {
+    "shortName": "RerouteModalObj",
+    "fullName": "(Namespace=\"UE\",Name=\"Reroute\")",
+    "comment": "A reroute node for modal objects (params) connections.",
+    "size": [
+      0.1,
+      0.1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Reroute\"),TemplateParams=((InputsToConnect=(\"Float\"),OutputsToConnect=(\"Float\"))))": {
+    "shortName": "RerouteFloat",
+    "fullName": "(Namespace=\"UE\",Name=\"Reroute\")",
+    "comment": "A reroute node for float values connections.",
+    "size": [
+      0.1,
+      0.1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Reroute\"),TemplateParams=((InputsToConnect=(\"Time\"),OutputsToConnect=(\"Time\"))))": {
+    "shortName": "RerouteTime",
+    "fullName": "(Namespace=\"UE\",Name=\"Reroute\")",
+    "comment": "A reroute node for time values connections.",
+    "size": [
+      0.1,
+      0.1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Reroute\"),TemplateParams=((InputsToConnect=(\"Audio\"),OutputsToConnect=(\"Audio\"))))": {
+    "shortName": "RerouteAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Reroute\")",
+    "comment": "A reroute node for audio connections.",
+    "size": [
+      0.1,
+      0.1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Reroute\"),TemplateParams=((InputsToConnect=(\"Trigger\"),OutputsToConnect=(\"Trigger\"))))": {
+    "shortName": "RerouteTrigger",
+    "fullName": "(Namespace=\"UE\",Name=\"Reroute\")",
+    "comment": "A reroute node for trigger connections.",
+    "size": [
+      0.1,
+      0.1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"298CA25444FDB687635EB9A3F9FFE53B\"),bIsClassNative=False)": {
+    "shortName": "ClickClack",
+    "fullName": "(Name=\"298CA25444FDB687635EB9A3F9FFE53B\")",
+    "comment": "A node to create multiple short clicking sounds.",
+    "size": [
+      3,
+      5.2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"4E0AAA5A42B1F27C57B79B95A2A0E810\"),bIsClassNative=False)": {
+    "shortName": "ClickClackVer2",
+    "fullName": "(Name=\"4E0AAA5A42B1F27C57B79B95A2A0E810\")",
+    "comment": "A node to create multiple short clicking sounds, version 2.",
+    "size": [
+      2.5,
+      5.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"F67F69B145145EA1EA0D2BAE11613602\"),bIsClassNative=False)": {
+    "shortName": "ClickClackDual",
+    "fullName": "(Name=\"F67F69B145145EA1EA0D2BAE11613602\")",
+    "comment": "A node to create multiple short clicking sounds using two synthesizers.",
+    "size": [
+      2.5,
+      5.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"E92699D24F4A7F5F1E5619955A655FB8\"),bIsClassNative=False)": {
+    "shortName": "WindMono",
+    "fullName": "(Name=\"E92699D24F4A7F5F1E5619955A655FB8\")",
+    "comment": "A node to create a wind sound effect.",
+    "size": [
+      2.25,
+      6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"E4C21D4D4F78E5BD7F7BE189154D6D63\"),bIsClassNative=False)": {
+    "shortName": "CoinShakeMono",
+    "fullName": "(Name=\"E4C21D4D4F78E5BD7F7BE189154D6D63\")",
+    "comment": "A node to create coin shaking (or small metallic objects) sound.",
+    "size": [
+      2.5,
+      2.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"36382A014FEC8A5D964F098893B26C1F\"),bIsClassNative=False)": {
+    "shortName": "WaterWading",
+    "fullName": "(Name=\"36382A014FEC8A5D964F098893B26C1F\")",
+    "comment": "A node to create the sound of walking under deep or shallow water.",
+    "size": [
+      2.25,
+      3.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"885725C04ED7781875209E88E316B640\"),bIsClassNative=False)": {
+    "shortName": "WaterHit",
+    "fullName": "(Name=\"885725C04ED7781875209E88E316B640\")",
+    "comment": "A node to create the sound of hitting a water surface.",
+    "size": [
+      2.25,
+      3.4
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"2383C6B24AB2930682DC11BC2BF6B686\"),bIsClassNative=False)": {
+    "shortName": "LiquidDropsOnHardSurface",
+    "fullName": "(Name=\"2383C6B24AB2930682DC11BC2BF6B686\")",
+    "comment": "Creating the sound of liquid droplets falling on a hard surface.",
+    "size": [
+      2.4,
+      5.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"15F800C34C21229886BD4E9C01949307\"),bIsClassNative=False)": {
+    "shortName": "LiquidGoreExplode",
+    "fullName": "(Name=\"15F800C34C21229886BD4E9C01949307\")",
+    "comment": "Creating the sound of liquid explosion with a gore feeling (blood, or thick and sticky liquid).",
+    "size": [
+      2.5,
+      4.3
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"DD556ED144D5D8A2D3A8A6AB50ABC62E\"),bIsClassNative=False)": {
+    "shortName": "LiquidGoreDropsOnHardSurface",
+    "fullName": "(Name=\"DD556ED144D5D8A2D3A8A6AB50ABC62E\")",
+    "comment": "Creating the sound of liquid droplets falling on a hard surface with a gore feeling (blood, or thick and sticky liquid).",
+    "size": [
+      2.25,
+      5.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"5F07F66A4EC7460BDC59E9804FCAA512\"),bIsClassNative=False)": {
+    "shortName": "MetalScratchingOnWood",
+    "fullName": "(Name=\"5F07F66A4EC7460BDC59E9804FCAA512\")",
+    "comment": "Creating the sound of a metal object scratching on a wood surface.",
+    "size": [
+      2.4,
+      4
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"146183B149F240466CACD5BA503C6482\"),bIsClassNative=False)": {
+    "shortName": "MetalScratchingOnStone",
+    "fullName": "(Name=\"146183B149F240466CACD5BA503C6482\")",
+    "comment": "Creating the sound of a metal object scratching on a stone surface.",
+    "size": [
+      2.4,
+      5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"C2AC68DE420BEB65DF18549298FFD1EB\"),bIsClassNative=False)": {
+    "shortName": "MetalScratchingOnGround",
+    "fullName": "(Name=\"C2AC68DE420BEB65DF18549298FFD1EB\")",
+    "comment": "Creating the sound of a metal object scratching on an earth ground.",
+    "size": [
+      2.4,
+      4
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"618A116044C407B69CCA7FB7CB9363BE\"),bIsClassNative=False)": {
+    "shortName": "MetalRollingOnWoodTable",
+    "fullName": "(Name=\"618A116044C407B69CCA7FB7CB9363BE\")",
+    "comment": "Creating the sound of a metal object rolling on a wood hollow object.",
+    "size": [
+      2.5,
+      7
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"82948E774FA6D0D121B86D8F5D2F7B84\"),bIsClassNative=False)": {
+    "shortName": "BassTwoTonesCharging",
+    "fullName": "(Name=\"82948E774FA6D0D121B86D8F5D2F7B84\")",
+    "comment": "Creating a tone by shifting two bass frequencies.",
+    "size": [
+      2.25,
+      6.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"125374E3401C099DB746E295B9568BA0\"),bIsClassNative=False)": {
+    "shortName": "BurningFlameLoop",
+    "fullName": "(Name=\"125374E3401C099DB746E295B9568BA0\")",
+    "comment": "Creating a loop of burning flame sound with crackles and fire.",
+    "size": [
+      2.25,
+      7.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"DDBBCEAF4F37F432AB23AFA768237459\"),bIsClassNative=False)": {
+    "shortName": "ElectricDischargeMono",
+    "fullName": "(Name=\"DDBBCEAF4F37F432AB23AFA768237459\")",
+    "comment": "Creating electric discharge effects for lightning, thunder, bolt, etc.",
+    "size": [
+      2.25,
+      5.1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Force Synth\",Variant=\"Mono\"))": {
+    "shortName": "ImpactForceMono",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Force Synth\",Variant=\"Mono\")",
+    "comment": "An impact synthesizer node for modal params. This node has it own built in force model with spawn rate and spawn chance. At least one impact is always generated even if spawn rate and spawn chance are set to zero.",
+    "size": [
+      3,
+      6.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Modal Explosify\"),Version=(Minor=2))": {
+    "shortName": "ModalExplosify",
+    "fullName": "(Namespace=\"LBS\",Name=\"Modal Explosify\")",
+    "comment": "Create distortion and lingering audio tail from the input audio.",
+    "size": [
+      2.4,
+      4.4
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Plate Reverb\",Variant=\"Stereo\"))": {
+    "shortName": "PlateReverbStereo",
+    "fullName": "(Namespace=\"UE\",Name=\"Plate Reverb\",Variant=\"Stereo\")",
+    "comment": "A plate reverb node.",
+    "size": [
+      2,
+      3.6
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Time, 2)\",Variant=\"Time\"))": {
+    "shortName": "TriggerRouteTime2",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Time, 2)\",Variant=\"Time\")",
+    "comment": "Select the value to pass to the output based on the input triggers.",
+    "size": [
+      1.6,
+      1.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Time, 3)\",Variant=\"Time\"))": {
+    "shortName": "TriggerRouteTime3",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Time, 3)\",Variant=\"Time\")",
+    "comment": "Select the value to pass to the output based on the input triggers.",
+    "size": [
+      1.6,
+      2
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Time, 4)\",Variant=\"Time\"))": {
+    "shortName": "TriggerRouteTime4",
+    "fullName": "(Namespace=\"TriggerRoute\",Name=\"Trigger Route (Time, 4)\",Variant=\"Time\")",
+    "comment": "Select the value to pass to the output based on the input triggers.",
+    "size": [
+      1.6,
+      2.25
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"LBS\",Name=\"Impact Modal Creator\"),NodeConfiguration=/Script/ImpactSFXSynth.ImpactModalCreatorNodeConfiguration(NumInputs=1))": {
+    "shortName": "ImpactModalCreator",
+    "fullName": "(Namespace=\"LBS\",Name=\"Impact Modal Creator\")",
+    "comment": "A node to create a modal params object at runtime.",
+    "size": [
+      2.25,
+      1
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(AccessType=Reference,MemberName=\"UE.Source.OnPlay\",DataType=\"Trigger\",VertexMetadata=(bSerializeText=False),ClassName=(Namespace=\"Input\",Name=\"Trigger\"))": {
+    "shortName": "InputTrigger",
+    "fullName": "(Namespace=\"Input\",Name=\"Trigger\")",
+    "comment": "An input trigger node.",
+    "size": [
+      1.25,
+      0.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"Max\",Name=\"Max\",Variant=\"Float\"))": {
+    "shortName": "MaxFloat",
+    "fullName": "(Namespace=\"Max\",Name=\"Max\",Variant=\"Float\")",
+    "comment": "Output the maximum value from input values.",
+    "size": [
+      1.25,
+      0.8
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"0D65A286465A1A360A01618156CB9B5D\"),bIsClassNative=False)": {
+    "shortName": "Gun2ShootsRepeat",
+    "fullName": "(Name=\"0D65A286465A1A360A01618156CB9B5D\")",
+    "comment": "Creating repeating gun shooting effects using two stages of synthesizers.",
+    "size": [
+      2.6,
+      10
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"BCF38619439B60752035BB8A7BB72886\"),bIsClassNative=False)": {
+    "shortName": "Gun4ShortShoots",
+    "fullName": "(Name=\"BCF38619439B60752035BB8A7BB72886\")",
+    "comment": "Creating complex gun shooting effects using four stages of synthesizers.",
+    "size": [
+      2.5,
+      16.5
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Name=\"36B12B9149A617213670D1A16208B69F\"),bIsClassNative=False)": {
+    "shortName": "SmallMechSequence",
+    "fullName": "(Name=\"36B12B9149A617213670D1A16208B69F\")",
+    "comment": "Creating small complex mechanical sequential clicks clacks sounds.",
+    "size": [
+      2.8,
+      12
+    ],
+    "constructorPins": []
+  },
+  "Breadcrumb=(ClassName=(Namespace=\"UE\",Name=\"Delay Pitch Shift\",Variant=\"Audio\"))": {
+    "shortName": "DelayPitchShiftAudio",
+    "fullName": "(Namespace=\"UE\",Name=\"Delay Pitch Shift\",Variant=\"Audio\")",
+    "comment": "A cheap low quality audio pitch shift node.",
+    "size": [
+      1.8,
+      1
+    ],
+    "constructorPins": []
+  }
+}

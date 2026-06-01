@@ -35,7 +35,8 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="5"
                               HorizontalScrollBarVisibility="Disabled" 
                               VerticalAlignment="Stretch"
-                              HorizontalAlignment="Stretch">
+                              HorizontalAlignment="Stretch"
+                              Name="SearchItemsScrollViewer">
                     <ItemsControl  ItemsSource="{Binding SearchedEntries}"
                                    HorizontalAlignment="Stretch"
                                    Margin="0"
@@ -103,8 +104,9 @@
                     </ItemsControl>
                 </ScrollViewer>
             </suki:BusyArea>
+        
         <suki:GlassCard Grid.Row="2" Padding="5" CornerRadius="10" Margin="0,5,0,5">
-            <Grid ColumnDefinitions="*, 40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid ColumnDefinitions="*, 35, 35" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <TextBox Classes="clearButton" 
                          HorizontalAlignment="Stretch"
                          Watermark="{Binding SearchWatermark}"
@@ -122,6 +124,30 @@
                         Command="{Binding SearchDescriptions}"
                         CommandParameter="{Binding #SearchTextBox.Text}">
                     <avalonia:MaterialIcon Kind="Search" HorizontalAlignment="Center" VerticalAlignment="Center"></avalonia:MaterialIcon>
+                </Button>
+                
+                <Button Grid.Column="2" 
+                Classes="Basic"  VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                CommandParameter="{Binding $parent[Window]}"
+                Padding="0"
+                ToolTip.Tip="Settings.">
+                <avalonia:MaterialIcon Kind="Settings" Width="18" Height="18" VerticalAlignment="Center"></avalonia:MaterialIcon>
+                    <Button.Flyout>
+                        <Flyout Placement="Bottom" HorizontalOffset="0" VerticalOffset="5">
+                            <suki:GlassCard Padding="10" HorizontalAlignment="Stretch" 
+                                            HorizontalContentAlignment="Stretch"
+                                            CornerRadius="10"
+                                            IsOpaque="True">
+                                <StackPanel Orientation="Vertical" Spacing="10">
+                                    <CheckBox Content="Merge On Play input triggers" IsChecked="{Binding MergeOnPlayTriggers}" />
+                                    <CheckBox Content="Enclose all nodes with a comment" IsChecked="{Binding EncloseWithComment}" />
+                                    <CheckBox Content="Merge same Time values into inputs" IsChecked="{Binding MergeSameTimes}" />
+                                    <CheckBox Content="Merge same Float values into inputs" IsChecked="{Binding MergeSameFloats}" />
+                                </StackPanel>
+                            </suki:GlassCard>
+                        </Flyout>
+                    </Button.Flyout>
                 </Button>
             </Grid>
         </suki:GlassCard>
