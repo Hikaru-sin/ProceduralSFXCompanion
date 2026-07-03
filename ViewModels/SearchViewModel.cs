@@ -29,26 +29,47 @@ public partial class SearchViewModel : ViewModelBase
     private readonly string _dbConn;
     private readonly ISukiToastManager _toastManager;
     private readonly AudioService _audioService;
+    private readonly AppSettingsService _appSettingsService;
     private readonly Dictionary<string, FileSystemWatcher> _watchers = new();
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsGraphEdited))]
-    private bool _mergeOnPlayTriggers = true;
+    private bool _mergeOnPlayTriggers;
+    partial void OnMergeOnPlayTriggersChanged(bool value)
+    {
+        _appSettingsService.AppSettings.SearchMergeOnPlayTriggers = value;
+        _appSettingsService.MarkAsModified();
+    }
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsGraphEdited))]
-    private bool _encloseWithComment = true;
+    private bool _encloseWithComment;
+    partial void OnEncloseWithCommentChanged(bool value)
+    {
+        _appSettingsService.AppSettings.SearchEncloseWithComment = value;
+        _appSettingsService.MarkAsModified();
+    }
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsGraphEdited))]
-    private bool _mergeSameTimes = false;
+    private bool _mergeSameTimes;
+    partial void OnMergeSameTimesChanged(bool value)
+    {
+        _appSettingsService.AppSettings.SearchMergeSameTimes = value;
+        _appSettingsService.MarkAsModified();
+    }
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsGraphEdited))]
-    private bool _mergeSameFloats = false;
-    
+    private bool _mergeSameFloats;
+    partial void OnMergeSameFloatsChanged(bool value)
+    {
+        _appSettingsService.AppSettings.SearchMergeSameFloats = value;
+        _appSettingsService.MarkAsModified();
+    }
+
     public bool IsGraphEdited => MergeOnPlayTriggers || EncloseWithComment || MergeSameFloats || MergeSameTimes;
-    
+
     public bool IsBusy
     {
         get;
@@ -77,6 +98,7 @@ public partial class SearchViewModel : ViewModelBase
         SearchedEntries = new BulkObservableCollection<GraphDescription>();
         _toastManager = toastManager;
         _audioService = audioService;
+        _appSettingsService = appSettingsService;
         FolderSelectorViewModel = new FolderSelectorViewModel(appSettingsService, appSettingsService.AppSettings.FolderPaths, toastManager);
         FolderSelectorViewModel.OnUserAddedFolder += (s, e) =>  { _ = OnUserAddedFolder(e); };
         FolderSelectorViewModel.SelectedItems.CollectionChanged += (_, _) =>
@@ -84,6 +106,12 @@ public partial class SearchViewModel : ViewModelBase
             using var connection = new SqliteConnection(_dbConn);
             UpdateNumSearchRow(connection);
         };
+
+        _mergeOnPlayTriggers = appSettingsService.AppSettings.SearchMergeOnPlayTriggers;
+        _encloseWithComment = appSettingsService.AppSettings.SearchEncloseWithComment;
+        _mergeSameFloats = appSettingsService.AppSettings.SearchMergeSameFloats;
+        _mergeSameTimes = appSettingsService.AppSettings.SearchMergeSameTimes;
+        
         _dbConn = "Data Source=" + Path.Combine(appSettingsService.SettingsFolderPath, "SearchIndex.db");
         _ = SyncFoldersAsync();
     }

@@ -11,4 +11,9 @@ public class AppSettings
     
     public WebTutorialsFetch? TutorialsFetch { get; set; }
     public DownloadLink DefaultAssetLink { get; set; } = new DownloadLink() { Version = Constants.DefaultAssetVersion };
+    
+    public bool SearchMergeOnPlayTriggers { get; set; } = true;
+    public bool SearchEncloseWithComment { get; set; } = true;
+    public bool SearchMergeSameTimes { get; set; } = false;
+    public bool SearchMergeSameFloats{ get; set; } = false;
 }

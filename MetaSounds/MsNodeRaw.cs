@@ -274,9 +274,9 @@ public class MsNodeRaw
         
         // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
         if (String.IsNullOrWhiteSpace(pinValueType)) // Empty means audio type which is a special case
-            newNode.Breadcrumb = $"(MemberName=\"{name}\",DataType={fromPin.Category},DefaultLiterals=((00000000000000000000000000000000, (AsNumDefault=1))))";
+            newNode.Breadcrumb = $"(MemberName=\"{name}\",DataType={fromPin.Category},DefaultLiterals=((00000000000000000000000000000000, (AsNumDefault=1))), ClassName=(Namespace=\"VariableMutator\",Name={fromPin.Category}))";
         else
-            newNode.Breadcrumb = $"(MemberName=\"{name}\",DataType={fromPin.Category},DefaultLiterals=((00000000000000000000000000000000, (Type={pinValueType},As{pinValueType}=({pinValue}))))))";
+            newNode.Breadcrumb = $"(MemberName=\"{name}\",DataType={fromPin.Category},DefaultLiterals=((00000000000000000000000000000000, (Type={pinValueType},As{pinValueType}=({pinValue})))), ClassName=(Namespace=\"VariableMutator\",Name={fromPin.Category}))";
         
         newNode.OtherProperties.Add("ClassType", "VariableMutator");
         MsNodePinRaw newPin = new MsNodePinRaw(fromPin, "\"Value\"", MsNodeRegistry.GetNewGuid(), false, 0);
@@ -311,9 +311,9 @@ public class MsNodeRaw
         
         // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
         if (String.IsNullOrWhiteSpace(pinValueType)) // Empty means audio type which is a special case
-            newNode.Breadcrumb = $"(MemberName=\"{name}\",DataType={fromPin.Category},DefaultLiterals=((00000000000000000000000000000000, (AsNumDefault=1))))";
+            newNode.Breadcrumb = $"(MemberName=\"{name}\",DataType={fromPin.Category},DefaultLiterals=((00000000000000000000000000000000, (AsNumDefault=1))), ClassName=(Namespace=\"VariableAccessor\",Name={fromPin.Category}))";
         else
-            newNode.Breadcrumb = $"(MemberName=\"{name}\",DataType={fromPin.Category},DefaultLiterals=((00000000000000000000000000000000, (Type={pinValueType},As{pinValueType}=({pinValue}))))))";
+            newNode.Breadcrumb = $"(MemberName=\"{name}\",DataType={fromPin.Category},DefaultLiterals=((00000000000000000000000000000000, (Type={pinValueType},As{pinValueType}=({pinValue})))),ClassName=(Namespace=\"VariableAccessor\",Name={fromPin.Category}))";
         
         newNode.OtherProperties.Add("ClassType", "VariableAccessor");
         MsNodePinRaw newPin = new MsNodePinRaw(fromPin, "\"Value\"", MsNodeRegistry.GetNewGuid(), true, 0);
