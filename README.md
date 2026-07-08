@@ -1,4 +1,3 @@
-Markdown
 # Procedural SFX Companion
 
 <p align="center">
@@ -38,8 +37,8 @@ It delivers lightning-fast graph searching and advanced editing features to sign
 
 ## 🛠️ Requirements
 
-**Runtime:** [.NET 8.0 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) (or whichever version your csproj uses)
-**Plugin:** [Procedural SFX & Music Plugin](https://www.fab.com/listings/738ae468-a616-4051-ae03-853b53bc2de4) installed in your Unreal Editor 5 project.
+* **Runtime:** [.NET 10.0 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0)
+* **Plugin:** [Procedural SFX & Music Plugin](https://www.fab.com/listings/738ae468-a616-4051-ae03-853b53bc2de4) installed in your Unreal Editor 5 project.
 
 ---
 
