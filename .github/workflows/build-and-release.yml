@@ -76,7 +76,7 @@ jobs:
     - name: Publish Portable Binary
       # Publishes a Trimmed, Single-File production executable optimized for distribution
       shell: bash
-      run: dotnet publish ./ProceduralSFXCompanion/ProceduralSFXCompanion.csproj -c Release -r ${{ matrix.rid }} --self-contained false -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish
+      run: dotnet publish ./ProceduralSFXCompanion.csproj -c Release -r ${{ matrix.rid }} --self-contained false -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish
 
     - name: Rename and Package Executable
       shell: pwsh
