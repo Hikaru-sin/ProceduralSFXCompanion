@@ -79,7 +79,7 @@ jobs:
       run: dotnet publish -c Release -r ${{ matrix.rid }} --self-contained false -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish
 
     - name: Rename and Package Executable
-      shell: bash
+      shell: pwsh
       run: |
         New-Item -ItemType Directory -Force -Path ./release_artifact
         
