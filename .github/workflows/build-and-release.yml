@@ -76,7 +76,7 @@ jobs:
     - name: Publish Portable Binary
       # Publishes a Trimmed, Single-File production executable optimized for distribution
       shell: bash
-      run: dotnet publish -c Release -r ${{ matrix.rid }} --self-contained false -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish
+      run: dotnet publish ./ProceduralSFXCompanion/ProceduralSFXCompanion.csproj -c Release -r ${{ matrix.rid }} --self-contained false -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish
 
     - name: Rename and Package Executable
       shell: pwsh
@@ -90,7 +90,7 @@ jobs:
         Compress-Archive -Path ./release_artifact/${{ matrix.output_name }}.exe -DestinationPath ./${{ matrix.output_name }}.zip
 
     - name: Upload Artifacts to Pipeline
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: ${{ matrix.output_name }}
         path: |
@@ -107,9 +107,15 @@ jobs:
     permissions:
       contents: write # Crucial permission for creating releases
     
+    
     steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+        
     - name: Download Windows Artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: ProceduralSFXCompanion-v${{ github.event.inputs.version }}-Windows-x64
         path: ./artifacts
