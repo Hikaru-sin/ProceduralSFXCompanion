@@ -81,16 +81,13 @@ jobs:
     - name: Rename and Package Executable
       shell: bash
       run: |
-        mkdir -p ./release_artifact
-        # Find the main executable in the output folder and move/rename it
-        if [ "${{ matrix.os }}" = "windows-latest" ]; then
-          mv ./publish/ProceduralSFXCompanion.exe ./release_artifact/${{ matrix.output_name }}.exe
-          cd ./release_artifact && zip ../${{ matrix.output_name }}.zip ${{ matrix.output_name }}.exe
-        else
-          mv ./publish/ProceduralSFXCompanion ./release_artifact/${{ matrix.output_name }}
-          chmod +x ./release_artifact/${{ matrix.output_name }}
-          cd ./release_artifact && tar -czvf ../${{ matrix.output_name }}.tar.gz ${{ matrix.output_name }}
-        fi
+        New-Item -ItemType Directory -Force -Path ./release_artifact
+        
+        # Move and rename the executable
+        Move-Item -Path ./publish/ProceduralSFXCompanion.exe -Destination ./release_artifact/${{ matrix.output_name }}.exe
+        
+        # Native PowerShell compression (creates the zip file seamlessly)
+        Compress-Archive -Path ./release_artifact/${{ matrix.output_name }}.exe -DestinationPath ./${{ matrix.output_name }}.zip
 
     - name: Upload Artifacts to Pipeline
       uses: actions/upload-artifact@v4
