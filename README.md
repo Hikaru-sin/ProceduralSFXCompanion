@@ -44,4 +44,4 @@ It delivers lightning-fast graph searching and advanced editing features to sign
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE) (or your preferred license) — see the LICENSE file for details.
+This project is licensed under the [MIT License](LICENSE).
