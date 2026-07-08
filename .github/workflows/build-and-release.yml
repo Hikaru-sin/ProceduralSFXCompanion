@@ -111,7 +111,7 @@ jobs:
     - name: Download Windows Artifact
       uses: actions/download-artifact@v4
       with:
-        name: ProceduralSFXCompanion-Windows-x64
+        name: ProceduralSFXCompanion-v${{ github.event.inputs.version }}-Windows-x64
         path: ./artifacts
 
     # - name: Download Linux Artifact
@@ -126,12 +126,21 @@ jobs:
     #     name: ProceduralSFXCompanion-v${{ github.event.inputs.version }}-macOS-x64
     #     path: ./artifacts
 
+    - name: Create and Push Git Tag Automatically
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git tag v${{ github.event.inputs.version }}
+        git push origin v${{ github.event.inputs.version }}
+
     - name: Create GitHub Release Draft
       uses: softprops/action-gh-release@v2
       with:
+        tag_name: v${{ github.event.inputs.version }}
+        name: Release v${{ github.event.inputs.version }}
         files: ./artifacts/*
-        draft: true # Creates it as a draft so you can polish release notes before publicizing
+        draft: true
         prerelease: false
-        generate_release_notes: true # Auto-populates release details from commit history
+        generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
