@@ -7,7 +7,7 @@ on:
       - 'v*' # Triggers CD pipeline on tags like v1.0.0
   pull_request:
     branches: [ "main" ]
-
+  workflow_dispatch: # This adds a manual "Run workflow" button in GitHub UI for testing!
 jobs:
 
 # ==========================================
