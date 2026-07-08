@@ -1,0 +1,161 @@
+name: CI/CD Build & Publish
+
+on:
+  push:
+    branches: [ "main" ]
+    tags:
+      - 'v*' # Triggers CD pipeline on tags like v1.0.0
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+# ==========================================
+# 1. CI JOB: Test and Validate Build
+# ==========================================
+  build-and-test:
+    name: Build & Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+        os: [ubuntu-latest, windows-latest, macos-latest]                       
+
+    env:
+      Solution_Name: ProceduralSFXCompanion.sln                        # Replace with your solution name, i.e. MyWpfApp.sln.
+      # Test_Project_Path: your-test-project-path                 # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v2
+
+    # Execute all unit tests in the solution
+    - name: Execute unit tests
+      run: dotnet test
+
+    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    - name: Restore the application
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+      env:
+        Configuration: ${{ matrix.configuration }}
+        
+# ==========================================
+# 2. CD JOB: Package & Create Release Assets
+# ==========================================
+
+  publish-release:
+    name: Package and Release
+    needs: build-and-test
+    if: startsWith(github.ref, 'refs/tags/v') # Only run if pushing a version tag
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            rid: win-x64
+            output_name: ProceduralSFXCompanion-Windows-x64
+            suffix: .exe
+          - os: ubuntu-latest
+            rid: linux-x64
+            output_name: ProceduralSFXCompanion-Linux-x64
+            suffix: ''
+          - os: macos-latest
+            rid: osx-x64
+            output_name: ProceduralSFXCompanion-macOS-x64
+            suffix: ''
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/workflows-samples/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Publish Portable Binary
+      # Publishes a Trimmed, Single-File production executable optimized for distribution
+      run: |
+        dotnet publish -c Release \
+          -r ${{ matrix.rid }} \
+          --self-contained false \
+          -p:PublishSingleFile=true \
+          -p:PublishTrimmed=false \
+          -p:IncludeNativeLibrariesForSelfExtract=true \
+          -o ./publish
+
+    - name: Rename and Package Executable
+      shell: bash
+      run: |
+        mkdir -p ./release_artifact
+        # Find the main executable in the output folder and move/rename it
+        if [ "${{ matrix.os }}" = "windows-latest" ]; then
+          mv ./publish/ProceduralSFXCompanion.exe ./release_artifact/${{ matrix.output_name }}.exe
+          cd ./release_artifact && zip ../${{ matrix.output_name }}.zip ${{ matrix.output_name }}.exe
+        else
+          mv ./publish/ProceduralSFXCompanion ./release_artifact/${{ matrix.output_name }}
+          chmod +x ./release_artifact/${{ matrix.output_name }}
+          cd ./release_artifact && tar -czvf ../${{ matrix.output_name }}.tar.gz ${{ matrix.output_name }}
+        fi
+
+    - name: Upload Artifacts to Pipeline
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.output_name }}
+        path: |
+          *.zip
+          *.tar.gz    
+
+# ==========================================
+# 3. RELEASE JOB: Consolidate & Draft Draft Release
+# ==========================================
+  create-release:
+    name: Create GitHub Release
+    needs: publish-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Crucial permission for creating releases
+    
+    steps:
+    - name: Download Windows Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ProceduralSFXCompanion-Windows-x64
+        path: ./artifacts
+
+    - name: Download Linux Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ProceduralSFXCompanion-Linux-x64
+        path: ./artifacts
+
+    - name: Download macOS Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ProceduralSFXCompanion-macOS-x64
+        path: ./artifacts
+
+    - name: Create GitHub Release Draft
+      uses: softprops/action-gh-release@v2
+      with:
+        files: ./artifacts/*
+        draft: true # Creates it as a draft so you can polish release notes before publicizing
+        prerelease: false
+        generate_release_notes: true # Auto-populates release details from commit history
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
