@@ -36,9 +36,8 @@ It delivers lightning-fast graph searching and advanced editing features to sign
 ---
 
 ## 🛠️ Requirements
-
-* **Runtime:** [.NET 10.0 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0)
-* **Plugin:** [Procedural SFX & Music Plugin](https://www.fab.com/listings/738ae468-a616-4051-ae03-853b53bc2de4) installed in your Unreal Editor 5 project.
+* **Engine:** Unreal Engine 5.6-5.8
+* **Plugin:** [Procedural SFX & Music Plugin](https://www.fab.com/listings/738ae468-a616-4051-ae03-853b53bc2de4) installed in your Unreal Editor 5 or project.
 
 ---
 
